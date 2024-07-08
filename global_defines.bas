@@ -1,0 +1,25 @@
+'= UNIT FIELDS ================================================================
+#DEFINE UN_ICON 0
+#DEFINE UN_WEAPON 1
+#DEFINE UN_TOTAL_HP 2
+#DEFINE UN_TOTAL_AP 3
+#DEFINE UN_ACCURACY 4
+#DEFINE UN_X_START 5
+#DEFINE UN_Y_START 6
+#DEFINE UN_STATUS 7
+#DEFINE UN_AP 8
+#DEFINE UN_HP 9
+#DEFINE UN_X 10
+#DEFINE UN_Y 11
+#DEFINE ALIVE 1
+#DEFINE DEAD 0
+
+'= WEAPON FIELDS ==============================================================
+#DEFINE WPN_AP 0
+#DEFINE WPN_RANGE 1
+#DEFINE WPN_DAMAGE_MIN 2
+#DEFINE WPN_DAMAGE_MAX 2
+
+'= GAME MODES =================================================================
+#DEFINE MOVE_MODE 0
+#DEFINE FIRE_MODE 1
