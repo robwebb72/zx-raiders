@@ -14,7 +14,7 @@ SUB Menu()
         ELSE 
             PRINT AT 14,5;"                      "
         ENDIF
-        a = INKEY$
+        a = INKEY
     LOOP WHILE a = ""
     WaitForKeyRelease()
     BEEP 0.1,1
