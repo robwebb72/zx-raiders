@@ -32,8 +32,6 @@ POKE (uinteger 23675, @raiders)
 #include "game_initialise.bas"
 #include "game.bas"
 
-
-
 DO
     Menu()
     InitialiseGame()
@@ -42,12 +40,3 @@ DO
     PAUSE 200
     PAUSE 0
 LOOP
-
-
-
-
-
-
-
-
-
