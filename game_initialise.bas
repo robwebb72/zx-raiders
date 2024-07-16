@@ -26,12 +26,13 @@ SUB ResetUnits()
     DIM i AS UBYTE
 
     FOR i = 0 TO 15
+        map(unitStat(i,UN_Y),unitStat(i,UN_X)) = 0
         unitStat(i,UN_X) = unitStat(i,UN_X_START)
         unitStat(i,UN_Y) = unitStat(i,UN_Y_START)
         unitStat(i,UN_AP) = unitStat(i,UN_TOTAL_AP)
         unitStat(i,UN_HP) = unitStat(i,UN_TOTAL_HP)
         unitStat(i,UN_STATUS) = ALIVE
-        map(unitStat(i,UN_Y_START),unitStat(i,UN_X_START)) = i
+        map(unitStat(i,UN_Y_START),unitStat(i,UN_X_START)) = i+1
     NEXT i
 END SUB
 
