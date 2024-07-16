@@ -1,5 +1,8 @@
-DECLARE FUNCTION GetNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
-DECLARE FUNCTION FindNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
+DECLARE FUNCTION CheckKeyForMovement(key as UBYTE) AS UBYTE
+
+#include "game_next_unit.bas"
+#include "game_move_unit.bas"
+
 
 SUB RunGame()
     DO
@@ -12,6 +15,7 @@ END SUB
 
 SUB TakeTurn()
     DIM currentUnit AS UBYTE
+    DIM moveDirection AS UBYTE
     DIM turnEnded AS UBYTE = 0
     DIM key AS String
     DIM blinker AS UBYTE
@@ -21,6 +25,7 @@ SUB TakeTurn()
     PrintInfoBar(MOVE_MODE)
     ResetUnitAps(player)
     DO
+        WaitForKeyRelease()
         DO
             blinker = BlinkerState()
             IF blinker=0 THEN
@@ -28,45 +33,27 @@ SUB TakeTurn()
             ELSE
                 DrawUnit(currentUnit, DRAW_NORMAL)
             ENDIF
-            key = iNKEY
+            key = INKEY
         LOOP WHILE key=""
-        IF key="n" or key="N" THEN
+
+        moveDirection = CheckKeyForMovement(Code(key(0)))
+
+        IF moveDirection<>DIR_NONE THEN
+            MoveUnit(moveDirection, currentUnit)
+        ELSEIF key="n" or key="N" THEN
             DrawUnit(currentUnit, DRAW_NORMAL)
             currentUnit = GetNextUnit(player, currentUnit)
+        ELSEIF key="1" THEN 
+            KillAllUnits(player)
+        ELSEIF key="0" THEN 
+            turnEnded = 1
         ENDIF
-        IF key="1" THEN KillAllUnits(player)
-        IF key="0" THEN turnEnded = 1        
-        WaitForKeyRelease()
+        
+        ' check for victory condition
+        
         
     LOOP WHILE turnEnded = 0
 END SUB
-
-FUNCTION GetNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
-    DrawUnit(currentUnit, DRAW_NORMAL)
-    currentUnit = FindNextUnit(player, currentUnit)
-    PrintUnitInfo(currentUnit)    
-    RETURN currentUnit
-END FUNCTION
-
-
-FUNCTION FindNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
-    DIM counter AS UBYTE = currentUnit
-    DIM found as UBYTE = 0
-    
-    DO
-        counter = counter + 1
-        IF player=1 AND counter>7 THEN counter = 0
-        IF player=2 AND counter>15 THEN counter = 8
-        IF counter = currentUnit THEN
-            found = 1
-         ELSEIF unitStat(counter, UN_STATUS) = ALIVE
-            found = 1
-         ENDIF
-    LOOP WHILE found=0
-    
-    RETURN counter
-END FUNCTION
-
 
 SUB ResetUnitAps(player as UBYTE)
     DIM i, j AS UBYTE
