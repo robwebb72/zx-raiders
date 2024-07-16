@@ -10,13 +10,25 @@ SUB PrintUnitInfo(currentUnit as UBYTE)
     
     INK 6 : ClearInfoPane()
     
-    PRINT AT 21,0;unitName(currentUnit);   
-    PRINT AT 22,0;CreateStatString("AP:",unitStat(currentUnit,UN_AP),unitStat(currentUnit,UN_TOTAL_AP));
-    PRINT AT 23,0;CreateStatString("HP:",unitStat(currentUnit,UN_HP),unitStat(currentUnit,UN_TOTAL_HP));
+    PRINT AT 21,0;unitName(currentUnit);  
+    PrintAP(currentUnit)
+    PrintHP(currentUnit)
 
     weaponId = unitStat(currentUnit, UN_WEAPON)
     PRINT AT 21,20;weaponName(weaponId);
     PRINT AT 22,20;weaponStat(weaponId,WPN_AP);" AP to fire";   
+END SUB
+
+
+
+SUB PrintAP(currentUnit as UBYTE)
+    INK 6
+    PRINT AT 22,0;CreateStatString("AP:",unitStat(currentUnit,UN_AP),unitStat(currentUnit,UN_TOTAL_AP))
+END SUB
+
+SUB PrintHP(currentUnit as UBYTE)
+    INK 6
+    PRINT AT 23,0;CreateStatString("HP:",unitStat(currentUnit,UN_HP),unitStat(currentUnit,UN_TOTAL_HP))
 END SUB
 
 SUB ClearInfoPane()
