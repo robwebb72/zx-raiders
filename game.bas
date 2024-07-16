@@ -47,6 +47,9 @@ SUB TakeTurn()
             KillAllUnits(player)
         ELSEIF key="0" THEN 
             turnEnded = 1
+		ELSEIF key="f" or key="F" THEN
+			' enter firemode
+			
         ENDIF
         
         ' check for victory condition
