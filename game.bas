@@ -8,6 +8,7 @@ SUB RunGame()
     DO
         player = 3 - player
         IF player = 1 THEN turnCounter = turnCounter + 1
+        ResetUnitAps(player)
         TakeTurn()
     LOOP WHILE winner=0
 END SUB
@@ -23,7 +24,6 @@ SUB TakeTurn()
     currentUnit = (8 * player) - 1
     currentUnit = GetNextUnit(player, currentUnit)
     PrintInfoBar(MOVE_MODE)
-    ResetUnitAps(player)
     DO
         WaitForKeyRelease()
         DO
