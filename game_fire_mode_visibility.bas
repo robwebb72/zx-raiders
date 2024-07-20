@@ -62,7 +62,7 @@ FUNCTION HasLineOfSight(x1 AS UBYTE, y1 AS UBYTE, x2 AS UBYTE, y2 as UBYTE) AS U
     dx = x2 - x1
     dy = y2 - y1
     
-    IF(dy>dx) THEN RETURN LoSBresenhamQ2(x1, y1, dx, dy)
+    IF(ABS(dy)>ABS(dx)) THEN RETURN LoSBresenhamQ2(x1, y1, dx, dy)
     RETURN LoSBresenhamQ1(x1, y1, dx, dy)
 END FUNCTION
 
