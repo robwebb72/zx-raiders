@@ -2,10 +2,48 @@ DIM visibilityFlag(16) AS UBYTE
 
 
 FUNCTION LoSBresenhamQ1(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
+    DIM err, err2, signY, x2, y2 AS BYTE
+    DIM c AS UBYTE
+    
+    x2 = dx + dx
+    y2 = dy + dy
+    signY = SGN(dy)
+    err = y2 - dx
+    
+    FOR c = 1 TO dx-1
+        WHILE err>0
+            y = y + signY
+            err = err - x2
+        WEND
+        x = x + 1
+        err = err + y2
+        IF map(y,x)<>0 THEN RETURN 0
+    NEXT c
+
     RETURN 1
 
 END FUNCTION
+
 FUNCTION LoSBresenhamQ2(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
+    DIM err, err2, signX, x2, y2 AS BYTE
+    DIM c AS UBYTE
+    
+    x2 = dx + dx
+    y2 = dy + dy
+    signX = SGN(dx)
+    err = x2 - dy
+    
+    FOR c = 1 TO dy-1
+        WHILE err>0
+            x = x + signX
+            err = err - y2
+        WEND
+        y = y + 1
+        err = err + x2
+        IF map(y,x)<>0 THEN RETURN 0
+    NEXT c
+    
+
     RETURN 1
 
 END FUNCTION
@@ -24,8 +62,8 @@ FUNCTION HasLineOfSight(x1 AS UBYTE, y1 AS UBYTE, x2 AS UBYTE, y2 as UBYTE) AS U
     dx = x2 - x1
     dy = y2 - y1
     
-    IF(dy>dx) THEN RETURN LoSBresenhamQ1(x1, y1, dx, dy)
-    RETURN LoSBresenhamQ2(x1, y1, dx, dy)
+    IF(dy>dx) THEN RETURN LoSBresenhamQ2(x1, y1, dx, dy)
+    RETURN LoSBresenhamQ1(x1, y1, dx, dy)
 END FUNCTION
 
 
