@@ -62,15 +62,12 @@ SUB MoveUnit(direction as UBYTE, currentUnit as UBYTE)
     
     dx = GetDx(direction)
     dy = GetDy(direction)
-    IF dx<>0 and dy<>0 THEN apCost = 3
-    PRINT at 0,0;dx;",";dy;"->";apCost;"    "
-    IF(apCost>unitStat(currentUnit, UN_AP)) THEn
-    
-        RETURN
-    ENDIF
 
-    
     IF dx=0 and dy=0 THEN RETURN
+    IF (dx*dy)<>0 THEN apCost = 3
+
+    IF(apCost>unitStat(currentUnit, UN_AP)) THEN RETURN    
+
     onMap = CheckMapBounds(dx, dy, currentUnit)
     IF onMap = 0 THEN
         BEEP 0.1,1

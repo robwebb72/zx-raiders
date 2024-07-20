@@ -2,7 +2,7 @@ DECLARE FUNCTION CheckKeyForMovement(key as UBYTE) AS UBYTE
 
 #include "game_next_unit.bas"
 #include "game_move_unit.bas"
-
+#include "game_fire_mode.bas"
 
 SUB RunGame()
     DO
@@ -48,8 +48,7 @@ SUB TakeTurn()
         ELSEIF key="0" THEN 
             turnEnded = 1
 		ELSEIF key="f" or key="F" THEN
-			' enter firemode
-			
+			FireMode(currentUnit)			
         ENDIF
         
         ' check for victory condition
