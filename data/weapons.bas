@@ -6,5 +6,5 @@ DIM weaponStat(2,3) AS UBYTE = { _
 DIM weaponName(2) AS STRING
 
 weaponName(0) = "pistol"
-weaponName(1) = "rifle"
-weaponName(2) = "minigun"
+weaponName(1) = "minigun"
+weaponName(2) = "rifle"
