@@ -7,9 +7,13 @@ SUB FireMode(currentUnit AS UBYTE)
     DIM key AS String
     DIM blinker AS UBYTE
 
-    
-    PrintInfoBar(FIRE_MODE)
     CalculateEnemyVisibility(currentUnit)
+    IF AnyEnemiesVisible() = FALSE THEN
+        PrintInfoBarWarning("No visible enemies in range")
+        RETURN
+    ENDIF
+
+    PrintInfoBar(FIRE_MODE)
     DrawEnemyUnitsForFireMode()
 
     DO
