@@ -91,4 +91,5 @@ SUB MoveUnit(direction as UBYTE, currentUnit as UBYTE)
 
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - apCost
     PrintAP(currentUnit)
+    BEEP 0.01,-10
 END SUB
