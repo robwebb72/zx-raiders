@@ -2,55 +2,55 @@ DIM visibilityFlag(16) AS UBYTE
 
 
 FUNCTION LoSBresenhamQ1(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
-    DIM err, err2, signY, x2, y2 AS BYTE
+    DIM delta, signY, x2, y2 AS BYTE
     DIM c AS UBYTE
-    
+
+    signY = SGN(dy)
+    dy = ABS(dy)
     x2 = dx + dx
     y2 = dy + dy
-    signY = SGN(dy)
-    err = y2 - dx
+    
+    delta = y2 - dx
     
     FOR c = 1 TO dx-1
-        WHILE err>0
+        WHILE delta>0
             y = y + signY
-            err = err - x2
+            delta = delta - x2
         WEND
         x = x + 1
-        err = err + y2
+        delta = delta + y2
         IF map(y,x)<>0 THEN RETURN 0
     NEXT c
 
     RETURN 1
-
 END FUNCTION
 
+
 FUNCTION LoSBresenhamQ2(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
-    DIM err, err2, signX, x2, y2 AS BYTE
+    DIM delta, signY, x2, y2 AS BYTE
     DIM c AS UBYTE
     
+    signY = SGN(dy)
+    dy=ABS(dy)
     x2 = dx + dx
     y2 = dy + dy
-    signX = SGN(dx)
-    err = x2 - dy
+    
+    delta = x2 - dy
     
     FOR c = 1 TO dy-1
-        WHILE err>0
-            x = x + signX
-            err = err - y2
+        WHILE delta>0
+            x = x + 1
+            delta = delta - y2
         WEND
-        y = y + 1
-        err = err + x2
+        y = y + signY
         IF map(y,x)<>0 THEN RETURN 0
     NEXT c
-    
 
     RETURN 1
-
 END FUNCTION
 
 
 FUNCTION HasLineOfSight(x1 AS UBYTE, y1 AS UBYTE, x2 AS UBYTE, y2 as UBYTE) AS UBYTE
-    ' TODO: Perform Line of Sight Test
     DIM t AS UBYTE
     DIM dx, dy AS BYTE
     
@@ -78,7 +78,6 @@ FUNCTION IsVisible(currentUnit AS UBYTE, target AS UBYTE) AS UBYTE
     weaponId = unitStat(currentUnit, UN_WEAPON)
     range = weaponStat(weaponId,WPN_RANGE)
     
-    
     xu = unitStat(currentUnit,UN_X)
     xt = unitStat(target,UN_X)    
     dx = xt - xu
@@ -105,7 +104,7 @@ SUB CalculateEnemyVisibility(currentUnit AS UBYTE)
     startUnit = enemyPlayer * 8
         
     FOR i = startUnit TO startUnit+7
-        visibilityFlag(i) = IsVisible(currentUnit, i)
+    IF unitStat(i,UN_STATUS)=ALIVE THEN visibilityFlag(i) = IsVisible(currentUnit, i)
     NEXT i
 END SUB
 
