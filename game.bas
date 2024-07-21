@@ -55,6 +55,7 @@ SUB TakeTurn()
         
         
     LOOP WHILE turnEnded = 0
+    DrawUnit(currentUnit, DRAW_NORMAL)
 END SUB
 
 SUB ResetUnitAps(player as UBYTE)
