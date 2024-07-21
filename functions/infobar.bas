@@ -20,3 +20,17 @@ SUB PrintInfoBar(mode as UBYTE)
     PRINT AT 20,23;"Turn: ";turnCounter
     PAPER 0
 END SUB
+
+
+SUB PrintInfoBarWarning(warning as STRING)
+    DIM offset AS BYTE
+    ClearInfoBar()
+    
+    offset = (32-Len(warning))/2
+    IF offset<0 THEN offset = 0
+    PRINT AT 20,offset;FLASH 1;warning
+    
+    WHILE Inkey<>"" : WEND
+    WHILE Inkey="" : WEND
+
+END SUB 
