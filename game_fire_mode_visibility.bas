@@ -104,7 +104,18 @@ SUB CalculateEnemyVisibility(currentUnit AS UBYTE)
     startUnit = enemyPlayer * 8
         
     FOR i = startUnit TO startUnit+7
-    IF unitStat(i,UN_STATUS)=ALIVE THEN visibilityFlag(i) = IsVisible(currentUnit, i)
+        IF unitStat(i,UN_STATUS)=ALIVE THEN visibilityFlag(i) = IsVisible(currentUnit, i)
     NEXT i
 END SUB
 
+
+FUNCTION AnyEnemiesVisible() AS UBYTE
+    DIM startUnit, enemyPlayer as UBYTE   
+    enemyPlayer = 2 - player    
+    startUnit = enemyPlayer * 8
+        
+    FOR i = startUnit TO startUnit+7
+        IF visibilityFlag(i) = TRUE THEN RETURN TRUE
+    NEXT i
+    RETURN FALSE
+END FUNCTION
