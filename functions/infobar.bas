@@ -2,9 +2,13 @@ DIM _ib_blankLine AS STRING
 
 _ib_blankLine = "                                "
 
-SUB PrintInfoBar(mode as UBYTE)
+SUB ClearInfoBar()
     PAPER 1: INK 6
     PRINT AT 20,0;_ib_blankLine
+END SUB
+
+SUB PrintInfoBar(mode as UBYTE)
+    ClearInfoBar()
     IF player=1 THEN
         PRINT AT 20,0;"Raiders"
     ELSE
