@@ -11,6 +11,7 @@ SUB FireMode(currentUnit AS UBYTE)
     CalculateEnemyVisibility(currentUnit)
     IF AnyEnemiesVisible() = FALSE THEN
         PrintInfoBarWarning("No visible enemies in range")
+        PrintInfoBar(MOVE_MODE)
         RETURN
     ENDIF
 
