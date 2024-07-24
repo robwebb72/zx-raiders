@@ -1,25 +1,21 @@
-FUNCTION FindNextTarget(player as UBYTE, currentTarget as UBYTE) AS UBYTE
-    DIM counter AS UBYTE
-    DIM originalTarget AS UBYTE
-    DIM found as UBYTE = 0
-    DIM playerOffset AS UBYTE = 0
-    
-    IF player=2 THEN playerOffset = 8
-    
-    originalTarget = currentTarget - playerOffset
-    counter = originalTarget    
-    
+FUNCTION GetNextTarget(player as UBYTE, currentTarget as UBYTE) AS UBYTE
+    DIM nextTarget AS UBYTE
+
+    nextTarget = currentTarget
     DO
-        counter = counter + 1
-        IF counter > 7 THEN counter = 0
-
-
-        IF counter = originalTarget THEN
-            found = 1
-         ELSEIF visibleFlag(counter) = TRUE
-            found = 1
-         ENDIF
-    LOOP WHILE found=0
+        nextTarget = nextTarget + 1
+        IF nextTarget >= NUMBER_OF_UNITS THEN nextTarget = 0
     
-    RETURN counter + playerOffset
+        IF unitStat(nextTarget, UN_STATUS) = DEAD THEN CONTINUE DO
+        IF unitStat(nextTarget, UN_FACTION) = player THEN CONTINUE DO
+        IF visibilityFlag(nextTarget) = TRUE THEN RETURN nextTarget
+    LOOP WHILE nextTarget <> currentTarget
+    
+    IF unitStat(nextTarget, UN_STATUS) = ALIVE THEN RETURN nextTarget
+    RETURN 255
+END FUNCTION
+
+
+FUNCTION GetFirstTarget(player as UBYTE) AS UBYTE
+    RETURN GetNextTarget(player, NUMBER_OF_UNITS)
 END FUNCTION

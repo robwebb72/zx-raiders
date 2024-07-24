@@ -1,12 +1,13 @@
 #include "game_fire_mode_visibility.bas"
-
+#include "fire_mode_next_target.bas"
     
 SUB FireMode(currentUnit AS UBYTE)
     
     DIM endFireMode AS UBYTE = 0
     DIM key AS String
     DIM blinker AS UBYTE
-
+    DIM target AS UBYTE
+    
     CalculateEnemyVisibility(currentUnit)
     IF AnyEnemiesVisible() = FALSE THEN
         PrintInfoBarWarning("No visible enemies in range")
@@ -15,6 +16,8 @@ SUB FireMode(currentUnit AS UBYTE)
 
     PrintInfoBar(FIRE_MODE)
     DrawEnemyUnitsForFireMode()
+    target = GetFirstTarget(player)
+    DrawUnit(target, DRAW_FIRE_TARGET)
 
     DO
         WaitForKeyRelease()
@@ -30,6 +33,11 @@ SUB FireMode(currentUnit AS UBYTE)
 
         IF key="k" or key="K" THEN
             endFireMode = 1
+        ELSEIF key="n" or key="N" THEN
+            DrawUnit(target, DRAW_FIRE_VISIBLE)
+            target = GetNextTarget(player, target)
+            DrawUnit(target, DRAW_FIRE_TARGET)
+            
         ENDIF
         
         
@@ -44,11 +52,10 @@ END SUB
 
 SUB DrawEnemyUnitsForMoveMode()
 
-    DIM startUnit, enemyPlayer as UBYTE   
-    enemyPlayer = 2 - player    
-    startUnit = enemyPlayer * 8
+    DIM i as UBYTE   
         
-    FOR i = startUnit TO startUnit+7
+    FOR i = 0 TO NUMBER_OF_UNITS-1
+        IF unitStat(i,UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(i,UN_STATUS)=DEAD THEN CONTINUE FOR
         DrawUnit(i, DRAW_NORMAL)
     NEXT i        
@@ -57,14 +64,12 @@ END SUB
 
 SUB DrawEnemyUnitsForFireMode()
 
-    DIM startUnit, enemyPlayer as UBYTE   
-    enemyPlayer = 2 - player    
-    startUnit = enemyPlayer * 8
+    DIM i as UBYTE   
         
-    FOR i = startUnit TO startUnit+7
+    FOR i = 0 TO NUMBER_OF_UNITS-1
+        IF unitStat(i,UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(i,UN_STATUS)=DEAD THEN CONTINUE FOR
         IF visibilityFlag(i)=1 THEN 
-'        IF (i bAnd 1)=1 THEN 
             DrawUnit(i, DRAW_FIRE_VISIBLE)       
         ELSE
             DrawUnit(i, DRAW_FIRE_NOT_VISIBLE)

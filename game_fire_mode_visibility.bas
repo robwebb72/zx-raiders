@@ -1,4 +1,4 @@
-DIM visibilityFlag(16) AS UBYTE
+DIM visibilityFlag(NUMBER_OF_UNITS) AS UBYTE
 
 
 FUNCTION LoSBresenhamQ1(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
@@ -99,22 +99,24 @@ END FUNCTION
 
 
 SUB CalculateEnemyVisibility(currentUnit AS UBYTE)
-    DIM startUnit, enemyPlayer as UBYTE   
-    enemyPlayer = 2 - player    
-    startUnit = enemyPlayer * 8
+    DIM i AS UBYTE = 0
+
+    FOR i = 0 TO NUMBER_OF_UNITS-1
+      
+        visibilityFlag(i) = FALSE
         
-    FOR i = startUnit TO startUnit+7
-        IF unitStat(i,UN_STATUS)=ALIVE THEN visibilityFlag(i) = IsVisible(currentUnit, i)
+        IF unitStat(i, UN_FACTION) = player THEN CONTINUE FOR
+        IF unitStat(i, UN_STATUS) <> ALIVE THEN CONTINUE FOR
+        visibilityFlag(i) = IsVisible(currentUnit, i)
     NEXT i
+
 END SUB
 
 
 FUNCTION AnyEnemiesVisible() AS UBYTE
-    DIM startUnit, enemyPlayer as UBYTE   
-    enemyPlayer = 2 - player    
-    startUnit = enemyPlayer * 8
+    DIM i AS UBYTE
         
-    FOR i = startUnit TO startUnit+7
+    FOR i = 0 TO NUMBER_OF_UNITS-1
         IF visibilityFlag(i) = TRUE THEN RETURN TRUE
     NEXT i
     RETURN FALSE
