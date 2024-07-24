@@ -43,10 +43,10 @@ FUNCTION LoSBresenhamQ2(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
             delta = delta - y2
         WEND
         y = y + signY
-        IF map(y,x)<>0 THEN RETURN 0
+        IF map(y,x)<>0 THEN RETURN FALSE
     NEXT c
 
-    RETURN 1
+    RETURN TRUE
 END FUNCTION
 
 
@@ -82,17 +82,17 @@ FUNCTION IsVisible(currentUnit AS UBYTE, target AS UBYTE) AS UBYTE
     xt = unitStat(target,UN_X)    
     dx = xt - xu
     IF dx<0 THEN dx=-dx    
-    IF dx>range THEN return 0 
+    IF dx>range THEN return FALSE 
     
     yu = unitStat(currentUnit,UN_Y)
     yt = unitStat(target,UN_Y)
     dy = yt - yu
     IF dy<0 THEN dy=-dy
-    IF dy>range THEN return 0 
+    IF dy>range THEN return FALSE
     
     rangeSquare = range * range
     dSquare = dx * dx + dy * dy
-    IF dSquare >  rangeSquare THEN RETURN 0
+    IF dSquare >  rangeSquare THEN RETURN FALSE
     
     RETURN HasLineOfSight(xu, yu, xt, yt)   
 END FUNCTION
