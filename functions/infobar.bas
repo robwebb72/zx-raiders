@@ -9,7 +9,7 @@ END SUB
 
 SUB PrintInfoBar(mode as UBYTE)
     ClearInfoBar()
-    IF player=1 THEN
+    IF player=0 THEN
         PRINT AT 20,0;"Raiders"
     ELSE
         PRINT AT 20,0;"Marsec"

@@ -1,13 +1,13 @@
 DECLARE FUNCTION CheckKeyForMovement(key as UBYTE) AS UBYTE
 
-#include "game_next_unit.bas"
+#include "game_find_unit.bas"
 #include "game_move_unit.bas"
-#include "game_fire_mode.bas"
+#include "fire_mode.bas"
 
 SUB RunGame()
     DO
-        player = 3 - player
-        IF player = 1 THEN turnCounter = turnCounter + 1
+        player = 1 - player
+        IF player = 0 THEN turnCounter = turnCounter + 1
         ResetUnitAps(player)
         TakeTurn()
     LOOP WHILE winner=0
@@ -21,9 +21,10 @@ SUB TakeTurn()
     DIM key AS String
     DIM blinker AS UBYTE
     
-    currentUnit = (8 * player) - 1
-    currentUnit = GetNextUnit(player, currentUnit)
+    currentUnit = GetFirstValidUnit(player)
     PrintInfoBar(MOVE_MODE)
+    PrintUnitInfo(currentUnit)
+
     DO
         WaitForKeyRelease()
         DO
@@ -59,19 +60,21 @@ SUB TakeTurn()
 END SUB
 
 SUB ResetUnitAps(player as UBYTE)
-    DIM i, j AS UBYTE
-
-    i = (player - 1) * 8
-    FOR j = i TO i+7
-        unitStat(j, UN_AP) = unitStat(j, UN_TOTAL_AP)
-    NEXT j
+    DIM unit AS UBYTE= 0
+    
+    WHILE unit < NUMBER_OF_UNITS
+        IF unitStat(unit, UN_FACTION) = player  and unitStat(unit, UN_STATUS) = ALIVE THEN unitStat(unit, UN_AP) = unitStat(unit, UN_TOTAL_AP) 
+        unit = unit + 1
+    WEND
 END SUB
 
 SUB KillAllUnits(player as UBYTE)
-    DIM i, j AS UBYTE
+    DIM unit AS UBYTE= 0
+    
+    WHILE unit < NUMBER_OF_UNITS
+        IF unitStat(unit, UN_FACTION) = player THEN unitStat(unit, UN_STATUS) = DEAD
+        unit = unit + 1
+    WEND
 
-    i = (player - 1) * 8
-    FOR j = i TO i+7
-        unitStat(j, UN_STATUS) = DEAD
-    NEXT j
+
 END SUB

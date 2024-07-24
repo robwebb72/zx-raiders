@@ -2,7 +2,7 @@ SUB InitialiseGame()
     CLS
     winner = 0
     turnCounter = 0
-    player = 2
+    player = 1
  
     ResetMap()
     ResetUnits()
@@ -25,7 +25,7 @@ END SUB
 SUB ResetUnits()
     DIM i AS UBYTE
 
-    FOR i = 0 TO 15
+    FOR i = 0 TO NUMBER_OF_UNITS-1
         map(unitStat(i,UN_Y),unitStat(i,UN_X)) = 0
         unitStat(i,UN_X) = unitStat(i,UN_X_START)
         unitStat(i,UN_Y) = unitStat(i,UN_Y_START)
@@ -51,7 +51,7 @@ END SUB
 SUB DrawUnits()
     DIM i AS UBYTE
     
-    FOR i=0 TO 15
+    FOR i=0 TO NUMBER_OF_UNITS-1
         DrawUnit(i,DRAW_NORMAL)
     NEXT i
 END SUB

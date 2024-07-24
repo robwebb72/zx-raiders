@@ -14,14 +14,24 @@ FUNCTION FindNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
     
     DO
         counter = counter + 1
-        IF player=1 AND counter>7 THEN counter = 0
-        IF player=2 AND counter>15 THEN counter = 8
+        IF counter=NUMBER_OF_UNITS THEN counter = 0
+        IF unitStat(counter, UN_FACTION)<>player THEN CONTINUE DO
         IF counter = currentUnit THEN
-            found = 1
+            found = TRUE
          ELSEIF unitStat(counter, UN_STATUS) = ALIVE
-            found = 1
+            found = TRUE
          ENDIF
-    LOOP WHILE found=0
+    LOOP WHILE found=FALSE
     
     RETURN counter
+END FUNCTION
+
+FUNCTION GetFirstValidUnit(player as UBYTE) AS UBYTE
+    DIM counter AS UBYTE
+    
+    WHILE counter < NUMBER_OF_UNITS
+        IF unitStat(counter,UN_FACTION) = player AND unitStat(counter,UN_STATUS) =  ALIVE THEN RETURN counter
+        counter = counter + 1
+    WEND
+    RETURN 255 
 END FUNCTION
