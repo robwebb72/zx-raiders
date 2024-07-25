@@ -36,7 +36,7 @@ SUB PrintInfoBarWarning(warning as STRING)
     ClearInfoBar()
     PRINT AT 20,TextCentre(warning);FLASH 1;warning
     
-    WaitForKeyPress()
+    WaitForKeyRelease()
 END SUB 
 
 SUB PrintInfoBarInform(info as STRING)
@@ -45,5 +45,6 @@ SUB PrintInfoBarInform(info as STRING)
     ClearInfoBar()
     PRINT AT 20,TextCentre(info);INK 6;info
     
-    WaitForKeyPress()
+    WaitForKeyRelease()
+    PAUSE 100
 END SUB 
