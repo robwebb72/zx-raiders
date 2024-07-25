@@ -15,11 +15,11 @@ SUB FireMode(currentUnit AS UBYTE)
     DIM key AS String
     DIM target AS UBYTE
 
-'    IF HasAPToFire(currentUnit) = FALSE THEN
-'        PrintInfoBarWarning("Not enough AP to fire")
-'        PrintInfoBar(MOVE_MODE)
-'        RETURN
-'    ENDIF
+    IF HasAPToFire(currentUnit) = FALSE THEN
+        PrintInfoBarWarning("Not enough AP to fire")
+        PrintInfoBar(MOVE_MODE)
+        RETURN
+    ENDIF
    
     CalculateEnemyVisibility(currentUnit)
     IF AnyEnemiesVisible() = FALSE THEN
@@ -57,9 +57,11 @@ SUB FireMode(currentUnit AS UBYTE)
             DrawUnit(target, DRAW_FIRE_TARGET)
         ELSEIF key="1" THEN
             TakeShot(currentUnit, target)
-            PrintUnitInfo(currentUnit)
-            ' update visibility flags - i.e. if unit is killed, set it's flag to false
-            ' check for any visible units
+            PrintAP(currentUnit)
+            IF AnyEnemiesVisible() = FALSE THEN
+                PrintInfoBarWarning("No visible enemies in range")
+                endFireMode = TRUE
+            ENDIF
         ENDIF
         
         
@@ -101,6 +103,40 @@ END SUB
 
 SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     DIM weaponId AS UBYTE
+    DIM diceRoll AS UBYTE
+    DIM message AS STRING
+    DIM damage AS UBYTE
+    
     weaponId = unitStat(currentUnit, UN_WEAPON)
+    message = unitName(currentUnit) + " "
+
+    ' update unit APs
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
+    
+    ' check if shot hits
+    diceRoll = Random(0,99)
+    IF diceRoll>=unitStat(currentUnit, UN_ACCURACY) THEN
+        message = message + "misses"
+        PrintInfoBarInform(message)
+        RETURN
+    ENDIF
+
+    ' show projectile moving to target
+
+
+    damage = Random(weaponStat(weaponId, WPN_DAMAGE_MIN), weaponStat(weaponId, WPN_DAMAGE_MAX))
+    message = message + "hits for " + Str(damage) + " HP"
+    PrintInfoBarInform(message)
+
+    ' if shot hits, caculate damage, inform player and
+    
+    ' show damage being applied to target
+        
+    ' if target is dead
+
+    IF unitStat(target, UN_HP)<=0 THEN 
+        unitStat(target, UN_STATUS) = DEAD
+        visibilityFlag(target) = FALSE 
+    '   inform player
+    ENDIF
 END SUB
