@@ -3,6 +3,19 @@ DECLARE FUNCTION CheckKeyForMovement(key as UBYTE) AS UBYTE
 #include "game_find_unit.bas"
 #include "game_move_unit.bas"
 #include "fire_mode.bas"
+#include "find_winner.bas"
+
+SUB PrintVictoryScreen(winner as UBYTE)
+
+    INK 4: PAPER 0: CLS
+    IF winner = 0 THEN PRINT AT 10,10;FLASH 1;"RAIDERS WIN!"
+    IF winner = 1 THEN PRINT AT 10,10;FLASH 1;"MARSEC WIN!"
+    IF winner = 2 THEN PRINT AT 10,8;"There are no winers"
+    Wait(50) 
+    PRINT AT 14,3;"Press any key to continue"
+    WaitForKeyPress()
+END SUB
+
 
 SUB RunGame()
     DO
@@ -10,7 +23,9 @@ SUB RunGame()
         IF player = 0 THEN turnCounter = turnCounter + 1
         ResetUnitAps(player)
         TakeTurn()
-    LOOP WHILE winner=0
+    LOOP WHILE winner=255
+    
+    PrintVictoryScreen(winner)
 END SUB
 
 
@@ -52,8 +67,8 @@ SUB TakeTurn()
 			FireMode(currentUnit)			
         ENDIF
         
-        ' check for victory condition
-        
+        winner = FindWinner()
+        IF winner <3 THEN turnEnded = 1
         
     LOOP WHILE turnEnded = 0
     DrawUnit(currentUnit, DRAW_NORMAL)

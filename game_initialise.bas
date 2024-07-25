@@ -1,6 +1,6 @@
 SUB InitialiseGame()
     CLS
-    winner = 0
+    winner = 255
     turnCounter = 0
     player = 1
  
