@@ -1,3 +1,8 @@
+#DEFINE WPN_AP 0
+#DEFINE WPN_RANGE 1
+#DEFINE WPN_DAMAGE_MIN 2
+#DEFINE WPN_DAMAGE_MAX 2
+
 DIM weaponStat(2,3) AS UBYTE = { _
     { 2,5,2,3 }, _
     { 4,8,4,6 }, _
