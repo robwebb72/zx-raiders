@@ -35,7 +35,7 @@ SUB TakeTurn()
     DIM turnEnded AS UBYTE = 0
     DIM key AS String
     DIM blinker AS UBYTE
-    
+
     currentUnit = GetFirstValidUnit(player)
     PrintInfoBar(MOVE_MODE)
     PrintUnitInfo(currentUnit)
@@ -60,7 +60,7 @@ SUB TakeTurn()
             DrawUnit(currentUnit, DRAW_NORMAL)
             currentUnit = GetNextUnit(player, currentUnit)
         ELSEIF key="1" THEN 
-            KillAllUnits(player)
+            KillAllEnemies(player)
         ELSEIF key="0" THEN 
             turnEnded = 1
 		ELSEIF key="f" or key="F" THEN
@@ -74,22 +74,22 @@ SUB TakeTurn()
     DrawUnit(currentUnit, DRAW_NORMAL)
 END SUB
 
+
 SUB ResetUnitAps(player as UBYTE)
     DIM unit AS UBYTE= 0
     
-    WHILE unit < NUMBER_OF_UNITS
-        IF unitStat(unit, UN_FACTION) = player  and unitStat(unit, UN_STATUS) = ALIVE THEN unitStat(unit, UN_AP) = unitStat(unit, UN_TOTAL_AP) 
-        unit = unit + 1
-    WEND
+    FOR unit = 0 TO NUMBER_OF_UNITS-1
+        IF unitStat(unit, UN_FACTION) = player AND unitStat(unit, UN_STATUS) = ALIVE THEN unitStat(unit, UN_AP) = unitStat(unit, UN_TOTAL_AP) 
+    NEXT unit
 END SUB
 
-SUB KillAllUnits(player as UBYTE)
-    DIM unit AS UBYTE= 0
+SUB KillAllEnemies(player as UBYTE)
+    DIM unit AS UBYTE
+    DIM enemyFaction AS UBYTE
     
-    WHILE unit < NUMBER_OF_UNITS
-        IF unitStat(unit, UN_FACTION) = player THEN unitStat(unit, UN_STATUS) = DEAD
-        unit = unit + 1
-    WEND
-
-
+    enemyFaction = 1 - player
+    
+    FOR unit = 0 TO NUMBER_OF_UNITS-1
+        IF unitStat(unit, UN_FACTION) = enemyFaction THEN unitStat(unit, UN_STATUS) = DEAD
+    NEXT unit
 END SUB
