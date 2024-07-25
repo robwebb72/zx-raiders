@@ -8,7 +8,7 @@ _ip_blankLine = "                                "
 SUB PrintUnitInfo(currentUnit as UBYTE)
     DIM weaponId AS UBYTE
     
-    INK 6 : ClearInfoPane()
+    INK 6 : PAPER 0 : ClearInfoPane()
     
     PRINT AT 21,0;unitName(currentUnit);  
     PrintAP(currentUnit)
@@ -22,12 +22,12 @@ END SUB
 
 
 SUB PrintAP(currentUnit as UBYTE)
-    INK 6
+    INK 6 : PAPER 0
     PRINT AT 22,0;CreateStatString("AP:",unitStat(currentUnit,UN_AP),unitStat(currentUnit,UN_TOTAL_AP))
 END SUB
 
 SUB PrintHP(currentUnit as UBYTE)
-    INK 6
+    INK 6 : PAPER 0
     PRINT AT 23,0;CreateStatString("HP:",unitStat(currentUnit,UN_HP),unitStat(currentUnit,UN_TOTAL_HP))
 END SUB
 
