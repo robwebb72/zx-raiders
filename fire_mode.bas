@@ -149,7 +149,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
         DrawUnit(target, DRAW_REMOVE)
         visibilityFlag(target) = FALSE
         map(unitStat(target, UN_Y),unitStat(target, UN_X)) = 0
-        message = unitName(target) + " is killed"
+        message = unitName(target) + " is out of action"
         PrintInfoBarInform(message)
     ELSE
         unitStat(target, UN_HP) = targetHP
