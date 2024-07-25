@@ -56,15 +56,18 @@ SUB FireMode(currentUnit AS UBYTE)
             target = GetNextTarget(player, target)
             DrawUnit(target, DRAW_FIRE_TARGET)
         ELSEIF key="1" THEN
+             DrawUnit(currentUnit, DRAW_NORMAL)
             TakeShot(currentUnit, target)
             PrintAP(currentUnit)
+            PrintInfoBar(FIRE_MODE)
             IF AnyEnemiesVisible() = FALSE THEN
                 PrintInfoBarWarning("No visible enemies in range")
                 endFireMode = TRUE
+            ELSE
+                target = GetNextTarget(player, target)
+                DrawUnit(target, DRAW_FIRE_TARGET)
             ENDIF
         ENDIF
-        
-        
         
     LOOP WHILE endFireMode = FALSE
 
@@ -106,37 +109,49 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     DIM diceRoll AS UBYTE
     DIM message AS STRING
     DIM damage AS UBYTE
+    DIM targetHP AS BYTE
+    
     
     weaponId = unitStat(currentUnit, UN_WEAPON)
     message = unitName(currentUnit) + " "
 
     ' update unit APs
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
-    
+
+    ' show projectile moving to target
+
+
     ' check if shot hits
-    diceRoll = Random(0,99)
+    diceRoll = Random(0,10) '99)
     IF diceRoll>=unitStat(currentUnit, UN_ACCURACY) THEN
         message = message + "misses"
         PrintInfoBarInform(message)
         RETURN
     ENDIF
 
-    ' show projectile moving to target
 
 
     damage = Random(weaponStat(weaponId, WPN_DAMAGE_MIN), weaponStat(weaponId, WPN_DAMAGE_MAX))
     message = message + "hits for " + Str(damage) + " HP"
     PrintInfoBarInform(message)
-
-    ' if shot hits, caculate damage, inform player and
     
-    ' show damage being applied to target
+    ' if shot hits, caculate damage 
+    targetHP = unitStat(target, UN_HP) - damage
+
+' show damage being applied to target
         
     ' if target is dead
-
-    IF unitStat(target, UN_HP)<=0 THEN 
+        
+    
+    IF targetHP<=0 THEN 
+        unitStat(target, UN_HP) = 0
         unitStat(target, UN_STATUS) = DEAD
-        visibilityFlag(target) = FALSE 
-    '   inform player
+        DrawUnit(target, DRAW_REMOVE)
+        visibilityFlag(target) = FALSE
+        map(unitStat(target, UN_Y),unitStat(target, UN_X)) = 0
+        message = unitName(target) + " is killed"
+        PrintInfoBarInform(message)
+    ELSE
+        unitStat(target, UN_HP) = targetHP
     ENDIF
 END SUB
