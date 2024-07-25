@@ -23,7 +23,7 @@ POKE (uinteger 23675, @raiders)
 #include "functions/infopane.bas"
 #include "functions/infobar.bas"
 #include "functions/draw_unit.bas"
-#include "functions/blinker.bas"
+#include "functions/timing.bas"
 #include "functions/inputs.bas"
 #include "functions/random.bas"
 
@@ -37,5 +37,4 @@ DO
     InitialiseGame()
     RunGame()
     WaitForKeyRelease()
-
 LOOP
