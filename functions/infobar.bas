@@ -2,6 +2,15 @@ DIM _ib_blankLine AS STRING
 
 _ib_blankLine = "                                "
 
+FUNCTION TextCentre(text as STRING) AS UBYTE
+    DIM offset AS BYTE
+
+    offset = (32-Len(text))/2
+    IF offset<0 THEN offset = 0
+
+    RETURN offset    
+END FUNCTION
+
 SUB ClearInfoBar()
     PAPER 1: INK 6
     PRINT AT 20,0;_ib_blankLine
@@ -21,16 +30,20 @@ SUB PrintInfoBar(mode as UBYTE)
     PAPER 0
 END SUB
 
-
 SUB PrintInfoBarWarning(warning as STRING)
     DIM offset AS BYTE
+    
     ClearInfoBar()
+    PRINT AT 20,TextCentre(warning);FLASH 1;warning
     
-    offset = (32-Len(warning))/2
-    IF offset<0 THEN offset = 0
-    PRINT AT 20,offset;FLASH 1;warning
-    
-    WHILE Inkey<>"" : WEND
-    WHILE Inkey="" : WEND
+    WaitForKeyPress()
+END SUB 
 
+SUB PrintInfoBarInform(info as STRING)
+    DIM offset AS BYTE
+    
+    ClearInfoBar()
+    PRINT AT 20,TextCentre(info);INK 6;info
+    
+    WaitForKeyPress()
 END SUB 
