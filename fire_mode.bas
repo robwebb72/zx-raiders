@@ -1,13 +1,26 @@
 #include "game_fire_mode_visibility.bas"
 #include "fire_mode_next_target.bas"
+
+FUNCTION HasAPToFire(currentUnit as UBYTE) AS UBYTE
+    DIM weaponId AS UBYTE
     
-SUB FireMode(currentUnit AS UBYTE)
-    
-    DIM endFireMode AS UBYTE = 0
+    weaponId = unitStat(currentUnit, UN_WEAPON)
+    IF unitStat(currentUnit,UN_AP) < weaponStat(weaponId, WPN_AP) THEN RETURN FALSE
+    RETURN TRUE
+
+END FUNCTION
+
+SUB FireMode(currentUnit AS UBYTE)   
+    DIM endFireMode AS UBYTE = FALSE
     DIM key AS String
-    DIM blinker AS UBYTE
     DIM target AS UBYTE
-    
+
+'    IF HasAPToFire(currentUnit) = FALSE THEN
+'        PrintInfoBarWarning("Not enough AP to fire")
+'        PrintInfoBar(MOVE_MODE)
+'        RETURN
+'    ENDIF
+   
     CalculateEnemyVisibility(currentUnit)
     IF AnyEnemiesVisible() = FALSE THEN
         PrintInfoBarWarning("No visible enemies in range")
@@ -20,12 +33,16 @@ SUB FireMode(currentUnit AS UBYTE)
     target = GetFirstTarget(player)
     DrawUnit(target, DRAW_FIRE_TARGET)
 
-    DO
+    DO   
+        IF HasAPToFire(currentUnit) = FALSE THEN
+            PrintInfoBarWarning("Not enough AP to fire")
+            EXIT DO
+        ENDIF
+    
         WaitForKeyRelease()
         DO
-            blinker = BlinkerState()
-            IF blinker=0 THEN
-                DrawUnit(currentUnit,DRAW_REMOVE)
+            IF BlinkerState()=0 THEN
+                DrawUnit(currentUnit, DRAW_REMOVE)
             ELSE
                 DrawUnit(currentUnit, DRAW_NORMAL)
             ENDIF
@@ -38,12 +55,16 @@ SUB FireMode(currentUnit AS UBYTE)
             DrawUnit(target, DRAW_FIRE_VISIBLE)
             target = GetNextTarget(player, target)
             DrawUnit(target, DRAW_FIRE_TARGET)
-            
+        ELSEIF key="1" THEN
+            TakeShot(currentUnit, target)
+            PrintUnitInfo(currentUnit)
+            ' update visibility flags - i.e. if unit is killed, set it's flag to false
+            ' check for any visible units
         ENDIF
         
         
         
-    LOOP WHILE endFireMode = 0
+    LOOP WHILE endFireMode = FALSE
 
     PrintInfoBar(MOVE_MODE)
     DrawEnemyUnitsForMoveMode()
@@ -76,4 +97,10 @@ SUB DrawEnemyUnitsForFireMode()
             DrawUnit(i, DRAW_FIRE_NOT_VISIBLE)
         ENDIF
     NEXT i        
+END SUB
+
+SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
+    DIM weaponId AS UBYTE
+    weaponId = unitStat(currentUnit, UN_WEAPON)
+    unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
 END SUB
