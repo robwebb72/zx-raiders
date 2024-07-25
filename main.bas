@@ -37,6 +37,5 @@ DO
     InitialiseGame()
     RunGame()
     WaitForKeyRelease()
-    PAUSE 200
-    PAUSE 0
+
 LOOP
