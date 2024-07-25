@@ -58,7 +58,7 @@ SUB FireMode(currentUnit AS UBYTE)
         ELSEIF key="1" THEN
              DrawUnit(currentUnit, DRAW_NORMAL)
             TakeShot(currentUnit, target)
-            PrintAP(currentUnit)
+
             PrintInfoBar(FIRE_MODE)
             IF AnyEnemiesVisible() = FALSE THEN
                 PrintInfoBarWarning("No visible enemies in range")
@@ -117,7 +117,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
 
     ' update unit APs
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
-
+    PrintAP(currentUnit)
     ' show projectile moving to target
 
 
