@@ -84,11 +84,13 @@ SUB ResetUnitAps(player as UBYTE)
     NEXT unit
 END SUB
 
+
 SUB KillAllEnemies(player as UBYTE)
     DIM unit AS UBYTE
     DIM enemyFaction AS UBYTE
     
     enemyFaction = 1 - player
+    
     
     FOR unit = 0 TO NUMBER_OF_UNITS-1
         IF unitStat(unit, UN_FACTION) = enemyFaction THEN unitStat(unit, UN_STATUS) = DEAD
