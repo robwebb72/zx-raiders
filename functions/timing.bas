@@ -8,17 +8,31 @@ END FUNCTION
 
 
 SUB Wait(n as INTEGER)
-
     DIM i, j AS UBYTE
     DIM diff AS INTEGER
     
     i = PEEK 23672
-    
     WHILE n>0
         j = PEEK 23672
         diff = j - i
         IF diff<0 THEN diff = diff + 256
         n = n - diff
         i = j    
+    WEND
+END SUB
+
+
+SUB WaitOrKeyPress(n as INTEGER)
+    DIM i, j AS UBYTE
+    DIM diff AS INTEGER
+    
+    i = PEEK 23672
+    WHILE n>0
+        j = PEEK 23672
+        diff = j - i
+        IF diff<0 THEN diff = diff + 256
+        n = n - diff
+        i = j    
+        IF Inkey<>"" THEN n=0
     WEND
 END SUB
