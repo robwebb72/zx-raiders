@@ -56,14 +56,13 @@ SUB FireMode(currentUnit AS UBYTE)
             target = GetNextTarget(player, target)
             DrawUnit(target, DRAW_FIRE_TARGET)
         ELSEIF key="1" THEN
-             DrawUnit(currentUnit, DRAW_NORMAL)
+            
             TakeShot(currentUnit, target)
-
-            PrintInfoBar(FIRE_MODE)
+            
             IF AnyEnemiesVisible() = FALSE THEN
                 PrintInfoBarWarning("No visible enemies in range")
                 endFireMode = TRUE
-            ELSE
+            ELSEIF unitStat(target, UN_STATUS) = DEAD THEN
                 target = GetNextTarget(player, target)
                 DrawUnit(target, DRAW_FIRE_TARGET)
             ENDIF
@@ -96,7 +95,7 @@ SUB DrawEnemyUnitsForFireMode()
     FOR i = 0 TO NUMBER_OF_UNITS-1
         IF unitStat(i,UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(i,UN_STATUS)=DEAD THEN CONTINUE FOR
-        IF visibilityFlag(i)=1 THEN 
+        IF visibilityFlag(i)=TRUE THEN 
             DrawUnit(i, DRAW_FIRE_VISIBLE)       
         ELSE
             DrawUnit(i, DRAW_FIRE_NOT_VISIBLE)
@@ -110,7 +109,8 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     DIM message AS STRING
     DIM damage AS UBYTE
     DIM targetHP AS BYTE
-    
+       
+    DrawUnit(currentUnit, DRAW_NORMAL)  ' draw current unit in case it was blanked out by the blinker
     
     weaponId = unitStat(currentUnit, UN_WEAPON)
     message = unitName(currentUnit) + " "
@@ -118,27 +118,24 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     ' update unit APs
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
     PrintAP(currentUnit)
+
     ' show projectile moving to target
 
-
-    ' check if shot hits
-    diceRoll = Random(0,10) '99)
-    IF diceRoll>=unitStat(currentUnit, UN_ACCURACY) THEN
+    diceRoll = 100 'Random(1,100)
+    IF diceRoll>unitStat(currentUnit, UN_ACCURACY) THEN
         message = message + "misses"
         PrintInfoBarInform(message)
+        PrintInfoBar(FIRE_MODE)
         RETURN
     ENDIF
-
-
 
     damage = Random(weaponStat(weaponId, WPN_DAMAGE_MIN), weaponStat(weaponId, WPN_DAMAGE_MAX))
     message = message + "hits for " + Str(damage) + " HP"
     PrintInfoBarInform(message)
     
-    ' if shot hits, caculate damage 
     targetHP = unitStat(target, UN_HP) - damage
 
-' show damage being applied to target
+    ' show damage being applied to target
         
     ' if target is dead
         
@@ -154,4 +151,6 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     ELSE
         unitStat(target, UN_HP) = targetHP
     ENDIF
+    PrintInfoBar(FIRE_MODE)
+
 END SUB
