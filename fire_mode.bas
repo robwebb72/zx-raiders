@@ -77,30 +77,28 @@ END SUB
 
 
 SUB DrawEnemyUnitsForMoveMode()
-
-    DIM i as UBYTE   
+    DIM unit as UBYTE   
         
-    FOR i = 0 TO NUMBER_OF_UNITS-1
-        IF unitStat(i,UN_FACTION) = player THEN CONTINUE FOR
-        IF unitStat(i,UN_STATUS)=DEAD THEN CONTINUE FOR
-        DrawUnit(i, DRAW_NORMAL)
-    NEXT i        
+    FOR unit = 0 TO NUMBER_OF_UNITS-1
+        IF unitStat(unit,UN_FACTION) = player THEN CONTINUE FOR
+        IF unitStat(unit,UN_STATUS) = DEAD THEN CONTINUE FOR
+        DrawUnit(unit, DRAW_NORMAL)
+    NEXT unit       
 END SUB
 
 
 SUB DrawEnemyUnitsForFireMode()
-
-    DIM i as UBYTE   
+    DIM unit as UBYTE   
         
-    FOR i = 0 TO NUMBER_OF_UNITS-1
-        IF unitStat(i,UN_FACTION) = player THEN CONTINUE FOR
-        IF unitStat(i,UN_STATUS)=DEAD THEN CONTINUE FOR
-        IF visibilityFlag(i)=TRUE THEN 
-            DrawUnit(i, DRAW_FIRE_VISIBLE)       
+    FOR unit = 0 TO NUMBER_OF_UNITS-1
+        IF unitStat(unit,UN_FACTION) = player THEN CONTINUE FOR
+        IF unitStat(unit,UN_STATUS) = DEAD THEN CONTINUE FOR
+        IF visibilityFlag(unit)=TRUE THEN 
+            DrawUnit(unit, DRAW_FIRE_VISIBLE)       
         ELSE
-            DrawUnit(i, DRAW_FIRE_NOT_VISIBLE)
+            DrawUnit(unit, DRAW_FIRE_NOT_VISIBLE)
         ENDIF
-    NEXT i        
+    NEXT unit       
 END SUB
 
 SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
@@ -119,9 +117,9 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
     PrintAP(currentUnit)
 
-    ' show projectile moving to target
+    ' TODO: show projectile moving to target
 
-    diceRoll = 100 'Random(1,100)
+    diceRoll = Random(1,100)
     IF diceRoll>unitStat(currentUnit, UN_ACCURACY) THEN
         message = message + "misses"
         PrintInfoBarInform(message)
@@ -135,12 +133,10 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     
     targetHP = unitStat(target, UN_HP) - damage
 
-    ' show damage being applied to target
-        
-    ' if target is dead
+    ' TODO: show damage being applied to target
         
     
-    IF targetHP<=0 THEN 
+    IF targetHP<=0 THEN                     ' if target is dead
         unitStat(target, UN_HP) = 0
         unitStat(target, UN_STATUS) = DEAD
         DrawUnit(target, DRAW_REMOVE)
