@@ -5,6 +5,25 @@ DIM _ip_blankLine AS STRING
 
 _ip_blankLine = "                                "
 
+SUB InfoPaneStartTurn(player as UBYTE, turn as UBYTE)
+
+    INK 6 : PAPER 1
+    ClearInfoBar()
+    ClearInfoPane()
+    IF player=0 THEN
+        PRINT AT 21,12;"RAIDERS"
+        BEEP 0.5, 3
+    ELSE
+        PRINT AT 21,12;"MARSEC"
+        BEEP 0.5, 1
+    ENDIF
+    PRINT AT 22,12;"TURN: " + Str(turn)
+    InfoBarWait()
+    PAPER 0
+    ClearInfoPane()
+END SUB
+
+
 SUB PrintUnitInfo(currentUnit as UBYTE)
     DIM weaponId AS UBYTE
     
