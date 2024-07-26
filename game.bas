@@ -44,13 +44,7 @@ SUB TakeTurn()
     DO
         WaitForKeyRelease()
         DO
-            blinker = BlinkerState()
             DrawUnit(currentUnit, DRAW_CURRENT_UNIT)
-            IF blinker=0 THEN
-                DrawUnit(currentUnit,DRAW_REMOVE)
-            ELSE
-                DrawUnit(currentUnit, DRAW_NORMAL)
-            ENDIF
             key = INKEY
         LOOP WHILE key=""
 
