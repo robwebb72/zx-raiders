@@ -20,12 +20,12 @@ DIM player AS UBYTE
 POKE (uinteger 23675, @raiders)
 
 '= FUNCTIONS ==================================================================
-#include "functions/infopane.bas"
-#include "functions/infobar.bas"
-#include "functions/draw_unit.bas"
 #include "functions/timing.bas"
 #include "functions/inputs.bas"
 #include "functions/random.bas"
+#include "functions/infopane.bas"
+#include "functions/infobar.bas"
+#include "functions/draw_unit.bas"
 
 '= MODULES ====================================================================
 #include "menu.bas"
