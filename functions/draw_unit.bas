@@ -5,14 +5,26 @@
 #DEFINE DRAW_RED 4
 #DEFINE DRAW_YELLOW 5
 #DEFINE DRAW_REMOVE 6
+#DEFINE DRAW_CURRENT_UNIT 7
 
 SUB DrawUnit(unit AS UBYTE, mode AS UBYTE)
 
     PAPER 0
+
+    IF mode = DRAW_CURRENT_UNIT THEN
+        IF BlinkerState() =0 THEN
+            mode = DRAW_REMOVE
+        ELSE
+            mode =  DRAW_NORMAL
+        ENDIF
+    ENDIF
+
     IF mode = DRAW_REMOVE THEN 
         PRINT AT unitStat(unit,UN_Y),unitStat(unit,UN_X);" "
         RETURN
     END IF
+    
+    
     IF unitStat(unit,UN_STATUS) = DEAD THEN RETURN  ' if unit is dead, don't draw it
     IF mode = DRAW_NORMAL AND unitStat(unit, UN_FACTION) = 0 THEN INK 4
     IF mode = DRAW_NORMAL AND unitStat(unit, UN_FACTION) = 1 THEN INK 2

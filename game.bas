@@ -45,6 +45,7 @@ SUB TakeTurn()
         WaitForKeyRelease()
         DO
             blinker = BlinkerState()
+            DrawUnit(currentUnit, DRAW_CURRENT_UNIT)
             IF blinker=0 THEN
                 DrawUnit(currentUnit,DRAW_REMOVE)
             ELSE
@@ -90,7 +91,6 @@ SUB KillAllEnemies(player as UBYTE)
     DIM enemyFaction AS UBYTE
     
     enemyFaction = 1 - player
-    
     
     FOR unit = 0 TO NUMBER_OF_UNITS-1
         IF unitStat(unit, UN_FACTION) = enemyFaction THEN unitStat(unit, UN_STATUS) = DEAD

@@ -41,11 +41,7 @@ SUB FireMode(currentUnit AS UBYTE)
     
         WaitForKeyRelease()
         DO
-            IF BlinkerState()=0 THEN
-                DrawUnit(currentUnit, DRAW_REMOVE)
-            ELSE
-                DrawUnit(currentUnit, DRAW_NORMAL)
-            ENDIF
+            DrawUnit(currentUnit, DRAW_CURRENT_UNIT)
             key = INKEY
         LOOP WHILE key=""
 
