@@ -30,21 +30,20 @@ SUB PrintInfoBar(mode as UBYTE)
     PAPER 0
 END SUB
 
+SUB InfoBarWait()
+    Wait(10)
+    WaitOrKeyPress(250)
+    WaitForKeyRelease()
+END SUB
+
 SUB PrintInfoBarWarning(warning as STRING)
-    DIM offset AS BYTE
-    
     ClearInfoBar()
     PRINT AT 20,TextCentre(warning);FLASH 1;warning
-    
-    WaitForKeyRelease()
+    InfoBarWait()
 END SUB 
 
 SUB PrintInfoBarInform(info as STRING)
-    DIM offset AS BYTE
-    
     ClearInfoBar()
     PRINT AT 20,TextCentre(info);INK 6;info
-    
-    WaitForKeyRelease()
-    PAUSE 100
+    InfoBarWait()
 END SUB 
