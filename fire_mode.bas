@@ -98,6 +98,18 @@ SUB DrawEnemyUnitsForFireMode()
     NEXT unit       
 END SUB
 
+SUB ShowDamage(target as UBYTE, damage as UBYTE)
+    DIM i AS UBYTE
+    
+    FOR i=0 TO damage
+        DrawUnit(target, DRAW_YELLOW)
+        BEEP 0.15,-4
+        DrawUnit(target, DRAW_RED)
+        BEEP 0.15,-6
+    NEXT i    
+    DrawUnit(target, DRAW_FIRE_TARGET)
+END SUB
+
 SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     DIM weaponId AS UBYTE
     DIM diceRoll AS UBYTE
@@ -114,7 +126,6 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
     PrintAP(currentUnit)
 
-    ' TODO: show projectile moving to target
     DrawShot(currentUnit, target)
     diceRoll = Random(1,100)
     IF diceRoll>unitStat(currentUnit, UN_ACCURACY) THEN
@@ -125,12 +136,12 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     ENDIF
 
     damage = Random(weaponStat(weaponId, WPN_DAMAGE_MIN), weaponStat(weaponId, WPN_DAMAGE_MAX))
+    ShowDamage(target, damage)
     message = message + "hits for " + Str(damage) + " HP"
     PrintInfoBarInform(message)
     
     targetHP = unitStat(target, UN_HP) - damage
 
-    ' TODO: show damage being applied to target
         
     
     IF targetHP<=0 THEN                     ' if target is dead
