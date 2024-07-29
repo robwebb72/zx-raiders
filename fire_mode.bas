@@ -1,5 +1,6 @@
 #include "game_fire_mode_visibility.bas"
 #include "fire_mode_next_target.bas"
+#include "fire_mode_draw_shot.bas"
 
 FUNCTION HasAPToFire(currentUnit as UBYTE) AS UBYTE
     DIM weaponId AS UBYTE
@@ -114,7 +115,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     PrintAP(currentUnit)
 
     ' TODO: show projectile moving to target
-
+    DrawShot(currentUnit, target)
     diceRoll = Random(1,100)
     IF diceRoll>unitStat(currentUnit, UN_ACCURACY) THEN
         message = message + "misses"
