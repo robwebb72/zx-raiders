@@ -10,11 +10,6 @@
 #include "data/weapons.bas"
 #include "data/map.bas"
 
-'= GLOBALS ====================================================================
-DIM winner AS UBYTE
-DIM turnCounter AS UBYTE
-DIM player AS UBYTE
-
 '= GRAPHICS ===================================================================
 #include "udgs/raiders.udg.bas"
 POKE (uinteger 23675, @raiders)
@@ -23,12 +18,8 @@ POKE (uinteger 23675, @raiders)
 #include "functions/timing.bas"
 #include "functions/inputs.bas"
 #include "functions/random.bas"
-#include "functions/infopane.bas"
-#include "functions/infobar.bas"
-#include "functions/draw_unit.bas"
 
 '= MODULES ====================================================================
-#include "game_initialise.bas"
 #include "game.bas"
 
 '= MAIN =======================================================================

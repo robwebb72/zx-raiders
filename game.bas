@@ -1,9 +1,20 @@
 DECLARE FUNCTION CheckKeyForMovement(key as UBYTE) AS UBYTE
 
+'= GAME GLOBALS ===============================================================
+DIM winner AS UBYTE
+DIM turnCounter AS UBYTE
+DIM player AS UBYTE
+
+'= MODULES ====================================================================
+#include "functions/infopane.bas"
+#include "functions/infobar.bas"
+#include "functions/draw_unit.bas"
+#include "game_initialise.bas"
 #include "game_find_unit.bas"
 #include "game_move_unit.bas"
 #include "fire_mode.bas"
 #include "find_winner.bas"
+
 
 SUB PrintVictoryScreen(winner as UBYTE)
 
@@ -18,6 +29,9 @@ END SUB
 
 
 SUB RunGame()
+
+    InitialiseGame()
+
     DO
         player = 1 - player
         IF player = 0 THEN turnCounter = turnCounter + 1
