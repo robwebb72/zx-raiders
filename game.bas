@@ -10,7 +10,7 @@ SUB PrintVictoryScreen(winner as UBYTE)
     INK 4: PAPER 0: CLS
     IF winner = 0 THEN PRINT AT 10,10;FLASH 1;"RAIDERS WIN!"
     IF winner = 1 THEN PRINT AT 10,10;FLASH 1;"MARSEC WIN!"
-    IF winner = 2 THEN PRINT AT 10,8;"There are no winers"
+    IF winner = 2 THEN PRINT AT 10,8;"There are no winners"
     Wait(50) 
     PRINT AT 14,3;"Press any key to continue"
     WaitForKeyPress()
