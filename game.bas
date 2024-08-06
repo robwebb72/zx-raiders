@@ -35,7 +35,7 @@ SUB RunGame()
     DO
         player = 1 - player
         IF player = 0 THEN turnCounter = turnCounter + 1
-        ResetUnitAps(player)
+        ResetUnitAps()
         InfoPaneStartTurn(player, turnCounter)        
         TakeTurn()
     LOOP WHILE winner=255
@@ -51,7 +51,7 @@ SUB TakeTurn()
     DIM key AS String
     DIM blinker AS UBYTE
 
-    currentUnit = GetFirstValidUnit(player)
+    currentUnit = GetFirstValidUnit()
     PrintInfoBar(MOVE_MODE)
     PrintUnitInfo(currentUnit)
 
@@ -68,9 +68,9 @@ SUB TakeTurn()
             MoveUnit(moveDirection, currentUnit)
         ELSEIF key="n" or key="N" THEN
             DrawUnit(currentUnit, DRAW_NORMAL)
-            currentUnit = GetNextUnit(player, currentUnit)
-        ELSEIF key="1" THEN 
-            KillAllEnemies(player)
+            currentUnit = GetNextUnit(currentUnit)
+        ELSEIF key="1" THEN 		' DEBUGGING CODE: Should be removed
+            KillAllEnemies()	'                 also debugging!
         ELSEIF key="0" THEN 
             turnEnded = 1
 		ELSEIF key="f" or key="F" THEN
@@ -85,7 +85,7 @@ SUB TakeTurn()
 END SUB
 
 
-SUB ResetUnitAps(player as UBYTE)
+SUB ResetUnitAps()
     DIM unit AS UBYTE= 0
     
     FOR unit = 0 TO NUMBER_OF_UNITS-1
@@ -94,7 +94,7 @@ SUB ResetUnitAps(player as UBYTE)
 END SUB
 
 
-SUB KillAllEnemies(player as UBYTE)
+SUB KillAllEnemies()
     DIM unit AS UBYTE
     DIM enemyFaction AS UBYTE
     
