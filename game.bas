@@ -1,5 +1,3 @@
-DECLARE FUNCTION CheckKeyForMovement(key as UBYTE) AS UBYTE
-
 '= GAME GLOBALS ===============================================================
 DIM winner AS UBYTE
 DIM turnCounter AS UBYTE
