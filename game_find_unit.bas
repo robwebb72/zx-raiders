@@ -1,14 +1,4 @@
-DECLARE FUNCTION FindNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
-
-FUNCTION GetNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
-    DrawUnit(currentUnit, DRAW_NORMAL)
-    currentUnit = FindNextUnit(player, currentUnit)
-    PrintUnitInfo(currentUnit)
-    RETURN currentUnit
-END FUNCTION
-
-
-FUNCTION FindNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
+FUNCTION FindNextUnit(currentUnit as UBYTE) AS UBYTE
     DIM counter AS UBYTE = currentUnit
     DIM found as UBYTE = 0
     
@@ -26,7 +16,16 @@ FUNCTION FindNextUnit(player as UBYTE, currentUnit as UBYTE) AS UBYTE
     RETURN counter
 END FUNCTION
 
-FUNCTION GetFirstValidUnit(player as UBYTE) AS UBYTE
+
+FUNCTION GetNextUnit(currentUnit as UBYTE) AS UBYTE
+    DrawUnit(currentUnit, DRAW_NORMAL)
+    currentUnit = FindNextUnit(currentUnit)
+    PrintUnitInfo(currentUnit)
+    RETURN currentUnit
+END FUNCTION
+
+
+FUNCTION GetFirstValidUnit() AS UBYTE
     DIM counter AS UBYTE
     
     WHILE counter < NUMBER_OF_UNITS
