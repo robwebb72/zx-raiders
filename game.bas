@@ -76,7 +76,7 @@ SUB TakeTurn()
         ENDIF
         
         winner = FindWinner()
-        IF winner <3 THEN turnEnded = 1
+        IF winner>0 THEN turnEnded = 1
         
     LOOP WHILE turnEnded = 0
     DrawUnit(currentUnit, DRAW_NORMAL)
