@@ -1,10 +1,10 @@
 SUB WaitForKeyRelease()
-    WHILE Inkey$<>"" : WEND
+    WHILE Inkey<>"" : WEND
 END SUB
 
 
 SUB WaitForKeyDown()
-    WHILE Inkey$="" : WEND
+    WHILE Inkey="" : WEND
 END SUB
 
 
