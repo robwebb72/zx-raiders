@@ -1,12 +1,13 @@
 #DEFINE DIR_NONE 0
-#DEFINE DIR_W 1
-#DEFINE DIR_E 2
-#DEFINE DIR_N 4
-#DEFINE DIR_S 8
-#DEFINE DIR_NW 5
-#DEFINE DIR_NE 6
-#DEFINE DIR_SW 9
-#DEFINE DIR_SE 10
+
+#DEFINE DIR_W %0001
+#DEFINE DIR_E %0010
+#DEFINE DIR_N %0100
+#DEFINE DIR_S %1000
+#DEFINE DIR_NW %0101
+#DEFINE DIR_NE %0110
+#DEFINE DIR_SW %1001
+#DEFINE DIR_SE %1010
 
 #DEFINE ASCII_Q 81
 #DEFINE ASCII_W 87
@@ -33,11 +34,13 @@ FUNCTION CheckKeyForMovement(key as UBYTE) AS UBYTE
     RETURN DIR_NONE
 END FUNCTION
 
+
 FUNCTION GetDx(dir as UBYTE) AS BYTE
     IF (dir bAND DIR_E)>0 THEN RETURN -1
     IF (dir bAND DIR_W)>0 THEN RETURN 1
     RETURN 0
 END FUNCTION
+
 
 FUNCTION GetDy(dir as UBYTE) AS BYTE
     IF (dir bAND DIR_N)>0 THEN RETURN -1
@@ -45,16 +48,17 @@ FUNCTION GetDy(dir as UBYTE) AS BYTE
     RETURN 0
 END FUNCTION
 
+
 FUNCTION CheckMapBounds(dx as BYTE, dy as BYTE, currentUnit as UBYTE) AS UBYTE
-    IF dx=-1 and unitStat(currentUnit,UN_X)=0 RETURN 0
     IF dy=-1 and unitStat(currentUnit,UN_Y)=0 RETURN 0
-    IF dx=1 and unitStat(currentUnit,UN_X)=31 RETURN 0
     IF dy=1 and unitStat(currentUnit,UN_Y)=19 RETURN 0
+    IF dx=-1 and unitStat(currentUnit,UN_X)=0 RETURN 0
+    IF dx=1 and unitStat(currentUnit,UN_X)=31 RETURN 0
     RETURN 1
 END FUNCTION
 
-SUB MoveUnit(direction as UBYTE, currentUnit as UBYTE)
 
+SUB MoveUnit(direction as UBYTE, currentUnit as UBYTE)
     DIM dx, dy AS BYTE
     DIM nx, ny AS UBYTE
     DIM onMap AS UBYTE
@@ -66,7 +70,11 @@ SUB MoveUnit(direction as UBYTE, currentUnit as UBYTE)
     IF dx=0 and dy=0 THEN RETURN
     IF (dx*dy)<>0 THEN apCost = 3
 
-    IF(apCost>unitStat(currentUnit, UN_AP)) THEN RETURN    
+    IF(apCost>unitStat(currentUnit, UN_AP)) THEN 
+    ' TODO: maybe warn about insufficient ap?
+        BEEP 0.1,1
+        RETURN    
+    ENDIF
 
     onMap = CheckMapBounds(dx, dy, currentUnit)
     IF onMap = 0 THEN
@@ -81,15 +89,16 @@ SUB MoveUnit(direction as UBYTE, currentUnit as UBYTE)
         RETURN
     ENDIF
     
+    DrawUnit(currentUnit, DRAW_REMOVE)
     map(unitStat(currentUnit,UN_Y), unitStat(currentUnit,UN_X)) = 0
     
-    DrawUnit(currentUnit, DRAW_REMOVE)
     unitStat(currentUnit,UN_X) = nx
     unitStat(currentUnit,UN_Y) = ny
+
     DrawUnit(currentUnit, DRAW_NORMAL)
     map(unitStat(currentUnit,UN_Y), unitStat(currentUnit,UN_X)) = currentUnit+1
 
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - apCost
-    PrintAP(currentUnit)
+    PrintAP()
     BEEP 0.01,-10
 END SUB
