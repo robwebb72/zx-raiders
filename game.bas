@@ -35,7 +35,7 @@ SUB RunGame()
         player = 1 - player
         IF player = 0 THEN turnCounter = turnCounter + 1
         ResetUnitAps()
-        InfoPaneStartTurn(player, turnCounter)        
+        InfoPaneStartTurn()        
         TakeTurn()
     LOOP WHILE winner=0
     
@@ -51,7 +51,7 @@ SUB TakeTurn()
 
     currentUnit = GetFirstValidUnit()
     PrintInfoBar(MOVE_MODE)
-    PrintUnitInfo(currentUnit)
+    PrintUnitInfo()
 
     DO
         WaitForKeyRelease()

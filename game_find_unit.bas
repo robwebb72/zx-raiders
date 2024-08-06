@@ -20,7 +20,7 @@ END FUNCTION
 FUNCTION GetNextUnit(currentUnit as UBYTE) AS UBYTE
     DrawUnit(currentUnit, DRAW_NORMAL)
     currentUnit = FindNextUnit(currentUnit)
-    PrintUnitInfo(currentUnit)
+    PrintUnitInfo()
     RETURN currentUnit
 END FUNCTION
 

@@ -124,7 +124,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
 
     ' update unit APs
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
-    PrintAP(currentUnit)
+    PrintAP()
 
     DrawShot(currentUnit, target)
     diceRoll = Random(1,100)
