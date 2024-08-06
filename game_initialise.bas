@@ -32,9 +32,10 @@ SUB ResetUnits()
         unitStat(i,UN_AP) = unitStat(i,UN_TOTAL_AP)
         unitStat(i,UN_HP) = unitStat(i,UN_TOTAL_HP)
         unitStat(i,UN_STATUS) = ALIVE
-        map(unitStat(i,UN_Y_START),unitStat(i,UN_X_START)) = i+1
+        map(unitStat(i,UN_Y),unitStat(i,UN_X)) = i+1
     NEXT i
 END SUB
+
 
 SUB DrawMap()
     DIM y, x AS UBYTE
@@ -47,6 +48,7 @@ SUB DrawMap()
     NEXT y
     PAPER 0
 END SUB
+
 
 SUB DrawUnits()
     DIM i AS UBYTE
