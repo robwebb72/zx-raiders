@@ -4,6 +4,7 @@ DECLARE FUNCTION CheckKeyForMovement(key as UBYTE) AS UBYTE
 DIM winner AS UBYTE
 DIM turnCounter AS UBYTE
 DIM player AS UBYTE
+DIM currentUnit as UBYTE
 
 '= MODULES ====================================================================
 #include "functions/infopane.bas"
@@ -45,7 +46,6 @@ END SUB
 
 
 SUB TakeTurn()
-    DIM currentUnit AS UBYTE
     DIM moveDirection AS UBYTE
     DIM turnEnded AS UBYTE = 0
     DIM key AS String
