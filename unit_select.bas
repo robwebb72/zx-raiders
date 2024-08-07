@@ -1,4 +1,4 @@
-FUNCTION FindNextUnit(currentUnit as UBYTE) AS UBYTE
+FUNCTION FindNextUnit() AS UBYTE
     DIM counter AS UBYTE = currentUnit
     DIM found as UBYTE = 0
     
@@ -17,9 +17,9 @@ FUNCTION FindNextUnit(currentUnit as UBYTE) AS UBYTE
 END FUNCTION
 
 
-FUNCTION GetNextUnit(currentUnit as UBYTE) AS UBYTE
+FUNCTION GetNextUnit() AS UBYTE
     DrawUnit(currentUnit, DRAW_NORMAL)
-    currentUnit = FindNextUnit(currentUnit)
+    currentUnit = FindNextUnit()
     PrintUnitInfo()
     RETURN currentUnit
 END FUNCTION

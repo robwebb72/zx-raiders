@@ -9,7 +9,7 @@ DIM currentUnit as UBYTE
 #include "functions/infobar.bas"
 #include "functions/draw_unit.bas"
 #include "game_initialise.bas"
-#include "game_find_unit.bas"
+#include "unit_select.bas"
 #include "game_move_unit.bas"
 #include "fire_mode.bas"
 #include "find_winner.bas"
@@ -66,7 +66,7 @@ SUB TakeTurn()
             MoveUnit(moveDirection, currentUnit)
         ELSEIF key="n" or key="N" THEN
             DrawUnit(currentUnit, DRAW_NORMAL)
-            currentUnit = GetNextUnit(currentUnit)
+            currentUnit = GetNextUnit()
         ELSEIF key="1" THEN 		' DEBUGGING CODE: Should be removed
             KillAllEnemies()	'                 also debugging!
         ELSEIF key="0" THEN 
