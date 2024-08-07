@@ -136,13 +136,9 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     ENDIF
 
     damage = Random(weaponStat(weaponId, WPN_DAMAGE_MIN), weaponStat(weaponId, WPN_DAMAGE_MAX))
-    ShowDamage(target, damage)
-    message = message + "hits for " + Str(damage) + " HP"
-    PrintInfoBarInform(message)
-    
     targetHP = unitStat(target, UN_HP) - damage
-
-        
+    ShowDamage(target, damage)
+           
     
     IF targetHP<=0 THEN                     ' if target is dead
         unitStat(target, UN_HP) = 0
@@ -153,6 +149,8 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
         message = unitName(target) + " is out of action"
         PrintInfoBarInform(message)
     ELSE
+        message = message + "hits for " + Str(damage) + " HP"
+        PrintInfoBarInform(message)
         unitStat(target, UN_HP) = targetHP
     ENDIF
     PrintInfoBar(FIRE_MODE)
