@@ -26,6 +26,7 @@ POKE (uinteger 23675, @raiders)
 
 DO
     StartScreen()
+    Randomize
     RunGame()
     WaitForKeyRelease()
 LOOP
