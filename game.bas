@@ -10,7 +10,7 @@ DIM currentUnit as UBYTE
 #include "functions/draw_unit.bas"
 #include "game_initialise.bas"
 #include "unit_select.bas"
-#include "game_move_unit.bas"
+#include "unit_move.bas"
 #include "fire_mode.bas"
 #include "find_winner.bas"
 
