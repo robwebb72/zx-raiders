@@ -50,13 +50,12 @@ SUB PopulateForQ2(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE)
             x = x + 1
             delta = delta - y2
         WEND
+        delta = delta + x2
         y = y + signY
         pointsx(c) = x
         pointsy(c) = y
     NEXT c
-
 END SUB
-
 
 
 SUB CreatePath(x1 as UBYTE, y1 as UBYTE, x2 as UBYTE, y2 as UBYTE)
@@ -70,9 +69,8 @@ SUB CreatePath(x1 as UBYTE, y1 as UBYTE, x2 as UBYTE, y2 as UBYTE)
     dx = x2 - x1 : dy = y2 - y1
 
     IF ABS(dy)>dx THEN PopulateForQ2(x1, y1, dx, dy) ELSE PopulateForQ1(x1, y1, dx, dy)
-    
-
 END SUB
+
 
 SUB DrawShotRightToLeft()
     DIM i AS UBYTE
@@ -82,6 +80,7 @@ SUB DrawShotRightToLeft()
     NEXT i
 END SUB
 
+
 SUB DrawShotLeftToRight()
     DIM i AS UBYTE
     
@@ -89,6 +88,7 @@ SUB DrawShotLeftToRight()
         DrawProjectile(pointsx(i),pointsy(i))
     NEXT i
 END SUB
+
 
 SUB DrawProjectile(x as UBYTE, y as UBYTE)
     PRINT at y,x;INK 7;"\H";
@@ -111,6 +111,4 @@ SUB DrawShot(currentUnit as UBYTE, target as UBYTE)
     ELSE
         DrawShotLeftToRight()
     ENDIF
-
-
 END SUB
