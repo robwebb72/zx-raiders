@@ -40,10 +40,10 @@ END SUB
 SUB DrawMap()
     DIM y, x AS UBYTE
     
-    PAPER 7: INK 2
+    INK 5
     FOR y=0 TO 19
         FOR x=0 TO 31
-            IF map(y,x)>100 THEN PRINT AT y,x;"\G"
+            IF map(y,x)>100 THEN PRINT AT y,x;CHR$(map(y,x))
         NEXT x
     NEXT y
     PAPER 0

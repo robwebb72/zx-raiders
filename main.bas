@@ -35,11 +35,11 @@ LOOP
 SUB StartScreen()
     DIM key AS STRING
     
-    BORDER 1: PAPER 0: INK 4 : CLS
+    BORDER 1: PAPER 0: INK 5 : CLS
     WaitForKeyRelease()
 
     PRINT AT 10,10;"MARS RAIDERS"; AT 11,10;"by Rob Webb"
-    PRINT AT 10,1; INK 5;"\A\B\C"
+    PRINT AT 10,1; INK 4;"\A\B\C"
     PRINT AT 10,28; INK 2;"\F\E\D"
     DO
         IF BlinkerState()=1 THEN 

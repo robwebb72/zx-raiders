@@ -91,7 +91,7 @@ END SUB
 
 
 SUB DrawProjectile(x as UBYTE, y as UBYTE)
-    PRINT at y,x;INK 7;"\H";
+    PRINT at y,x;INK 7;"\G";
     Wait(8)
     PRINT at y,x;" ";
 END SUB
