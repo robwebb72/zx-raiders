@@ -5,13 +5,13 @@ DIM player AS UBYTE
 DIM currentUnit as UBYTE
 
 '= MODULES ====================================================================
-#include "functions/infopane.bas"
-#include "functions/infobar.bas"
-#include "functions/draw_unit.bas"
+#include "common/infopane.bas"
+#include "common/infobar.bas"
+#include "common/draw_unit.bas"
 #include "game_initialise.bas"
 #include "unit_select.bas"
 #include "unit_move.bas"
-#include "fire_mode.bas"
+#include "fire-mode/fire_mode.bas"
 #include "find_winner.bas"
 
 

@@ -1,6 +1,7 @@
-#include "game_fire_mode_visibility.bas"
-#include "fire_mode_next_target.bas"
-#include "fire_mode_draw_shot.bas"
+#include "visibility.bas"
+#include "next_target.bas"
+#include "draw_shot.bas"
+
 
 FUNCTION HasAPToFire(currentUnit as UBYTE) AS UBYTE
     DIM weaponId AS UBYTE
@@ -10,6 +11,7 @@ FUNCTION HasAPToFire(currentUnit as UBYTE) AS UBYTE
     RETURN TRUE
 
 END FUNCTION
+
 
 SUB FireMode(currentUnit AS UBYTE)   
     DIM endFireMode AS UBYTE = FALSE
@@ -97,6 +99,7 @@ SUB DrawEnemyUnitsForFireMode()
         ENDIF
     NEXT unit       
 END SUB
+
 
 SUB ShowDamage(target as UBYTE, damage as UBYTE)
     DIM i AS UBYTE

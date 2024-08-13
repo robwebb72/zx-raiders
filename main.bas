@@ -15,9 +15,9 @@
 POKE (uinteger 23675, @raiders)
 
 '= FUNCTIONS ==================================================================
-#include "functions/timing.bas"
-#include "functions/inputs.bas"
-#include "functions/random.bas"
+#include "common/timing.bas"
+#include "common/inputs.bas"
+#include "common/random.bas"
 
 '= MODULES ====================================================================
 #include "game.bas"
