@@ -4,9 +4,9 @@
 #DEFINE WPN_DAMAGE_MAX 3
 
 DIM weaponStat(2,3) AS UBYTE = { _
-    { 2,5,2,3 }, _
-    { 4,8,4,6 }, _
-    { 6,10,4,8 } }
+    { 3,5,2,3 }, _
+    { 6,8,4,6 }, _
+    { 8,10,4,8 } }
 
 DIM weaponName(2) AS STRING
 
