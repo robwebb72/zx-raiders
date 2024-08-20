@@ -13,8 +13,8 @@ FUNCTION FindWinner() AS UBYTE
     DIM allRaidersDead AS UBYTE = TRUE
     DIM allMarsecDead AS UBYTE = TRUE
     
-    IF AnyUnitAlive(0) = TRUE THEN allRaidersDead = FALSE
-    IF AnyUnitAlive(1) = TRUE THEN allMarsecDead = FALSE
+    IF AnyUnitAlive(RAIDERS) = TRUE THEN allRaidersDead = FALSE
+    IF AnyUnitAlive(MARSEC) = TRUE THEN allMarsecDead = FALSE
     
     IF allRaidersDead = FALSE and allMarsecDead = FALSE THEN RETURN 0
     IF allRaidersDead = TRUE and allMarsecDead = TRUE THEN RETURN 3

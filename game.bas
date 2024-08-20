@@ -1,4 +1,9 @@
 '= GAME GLOBALS ===============================================================
+#DEFINE WINNER_RAIDERS 2
+#DEFINE WINNER_NONE 0 
+#DEFINE WINNER_MARSEC 1
+#DEFINE WINNER_DRAW 3
+
 DIM winner AS UBYTE
 DIM turnCounter AS UBYTE
 DIM player AS UBYTE
@@ -18,10 +23,10 @@ DIM currentUnit as UBYTE
 SUB PrintVictoryScreen()
 
     INK 4: PAPER 0: CLS
-    IF winner = 1 THEN PRINT AT 10,10;FLASH 1;"RAIDERS WIN!"
-    IF winner = 2 THEN PRINT AT 10,10;FLASH 1;"MARSEC WIN!"
-    IF winner = 3 THEN PRINT AT 10,8;"There are no winners"
-    Wait(50) 
+    IF winner = WINNER_RAIDERS THEN PRINT AT 10,10;FLASH 1;"RAIDERS WIN!"
+    IF winner = WINNER_MARSEC THEN PRINT AT 10,10;FLASH 1;"MARSEC WIN!"
+    IF winner = WINNER_DRAW THEN PRINT AT 10,8;"There are no winners"
+    Wait(50)
     PRINT AT 14,3;"Press any key to continue"
     WaitForKeyPress()
 END SUB
@@ -76,7 +81,7 @@ SUB TakeTurn()
         ENDIF
         
         winner = FindWinner()
-        IF winner>0 THEN turnEnded = 1
+        IF winner<>WINNER_NONE THEN turnEnded = 1
         
     LOOP WHILE turnEnded = 0
     DrawUnit(currentUnit, DRAW_NORMAL)

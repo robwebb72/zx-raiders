@@ -26,8 +26,8 @@ SUB DrawUnit(unit AS UBYTE, mode AS UBYTE)
     
     
     IF unitStat(unit,UN_STATUS) = DEAD THEN RETURN
-    IF mode = DRAW_NORMAL AND unitStat(unit, UN_FACTION) = 0 THEN INK 4
-    IF mode = DRAW_NORMAL AND unitStat(unit, UN_FACTION) = 1 THEN INK 2
+    IF mode = DRAW_NORMAL AND unitStat(unit, UN_FACTION) = RAIDERS THEN INK 4
+    IF mode = DRAW_NORMAL AND unitStat(unit, UN_FACTION) = MARSEC THEN INK 2
     IF mode = DRAW_FIRE_NOT_VISIBLE THEN INK 1
     IF mode = DRAW_FIRE_VISIBLE THEN INK 5
     IF mode = DRAW_FIRE_TARGET THEN INK 5: PAPER 3
