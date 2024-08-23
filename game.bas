@@ -42,7 +42,7 @@ SUB RunGame()
         ResetUnitAps()
         InfoPaneStartTurn()        
         TakeTurn()
-    LOOP WHILE winner=0
+    LOOP WHILE winner=WINNER_NONE
     
     PrintVictoryScreen()
 END SUB
@@ -50,7 +50,7 @@ END SUB
 
 SUB TakeTurn()
     DIM moveDirection AS UBYTE
-    DIM turnEnded AS UBYTE = 0
+    DIM turnEnded AS UBYTE = FALSE
     DIM key AS String
     DIM blinker AS UBYTE
 
@@ -81,9 +81,9 @@ SUB TakeTurn()
         ENDIF
         
         winner = FindWinner()
-        IF winner<>WINNER_NONE THEN turnEnded = 1
+        IF winner<>WINNER_NONE THEN turnEnded = TRUE
         
-    LOOP WHILE turnEnded = 0
+    LOOP WHILE turnEnded = FALSE
     DrawUnit(currentUnit, DRAW_NORMAL)
 END SUB
 
