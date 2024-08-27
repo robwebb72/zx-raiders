@@ -67,10 +67,9 @@ FUNCTION HasLineOfSight(x1 AS UBYTE, y1 AS UBYTE, x2 AS UBYTE, y2 as UBYTE) AS U
 END FUNCTION
 
 
-FUNCTION IsInRange(range as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE  
-    DIM rangeSq, dSquare as UBYTE
+FUNCTION IsInRange(rangeSq as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE  
+    DIM dSquare as UBYTE
 
-    rangeSq = range * range
     dSquare = dx * dx + dy * dy
     IF dSquare > rangeSq THEN RETURN FALSE
 
@@ -82,10 +81,10 @@ END FUNCTION
 FUNCTION IsVisible(currentUnit AS UBYTE, target AS UBYTE) AS UBYTE
     DIM dx, dy as BYTE
     DIM xu, xt, yu, yt as UBYTE  
-    DIM weaponId, range AS UBYTE
+    DIM weaponId, rangeSq AS UBYTE
     
     weaponId = unitStat(currentUnit, UN_WEAPON)
-    range = weaponStat(weaponId,WPN_RANGE)
+    rangeSq = weaponStat(weaponId,WPN_LONG_RANGE_SQ)
     
     xu = unitStat(currentUnit,UN_X)
     xt = unitStat(target,UN_X)    
@@ -95,7 +94,7 @@ FUNCTION IsVisible(currentUnit AS UBYTE, target AS UBYTE) AS UBYTE
     yt = unitStat(target,UN_Y)
     dy = yt - yu
 
-    IF IsInRange(range, dx, dy)=FALSE THEN RETURN FALSE
+    IF IsInRange(rangeSq, dx, dy)=FALSE THEN RETURN FALSE
 
     RETURN HasLineOfSight(xu, yu, xt, yt)   
 END FUNCTION
