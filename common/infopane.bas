@@ -10,13 +10,9 @@ FUNCTION PadNumericString(value as UBYTE) AS STRING
 END FUNCTION
 
 
-FUNCTION CreateStatString(name as STRING, currentValue as UBYTE, originalValue as UBYTE) AS STRING
-    DIM output, current, original AS STRING
-    
-    current = PadNumericString(currentValue)
-    original = PadNumericString(originalValue)
-    output = name + current + "/" + original
-    RETURN output  
+FUNCTION CreateStatString(currentValue as UBYTE, originalValue as UBYTE) AS STRING
+
+    RETURN PadNumericString(currentValue) + "/" + PadNumericString(originalValue)
 END FUNCTION
 
 
@@ -56,13 +52,13 @@ END SUB
 
 SUB PrintAP()
     INK 6 : PAPER 0
-    PRINT AT 22,0;CreateStatString("AP:",unitStat(currentUnit,UN_AP),unitStat(currentUnit,UN_TOTAL_AP))
+    PRINT AT 22,0;"AP:";CreateStatString(unitStat(currentUnit,UN_AP),unitStat(currentUnit,UN_TOTAL_AP))
 END SUB
 
 
 SUB PrintHP()
     INK 6 : PAPER 0
-    PRINT AT 23,0;CreateStatString("HP:",unitStat(currentUnit,UN_HP),unitStat(currentUnit,UN_TOTAL_HP))
+    PRINT AT 23,0;"HP:";CreateStatString(unitStat(currentUnit,UN_HP),unitStat(currentUnit,UN_TOTAL_HP))
 END SUB
 
 
