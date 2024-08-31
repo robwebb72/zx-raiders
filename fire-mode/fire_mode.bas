@@ -2,8 +2,28 @@
 #include "next_target.bas"
 #include "draw_shot.bas"
 
+FUNCTION ChanceToHit(target as UBYTE) AS UBYTE
+    RETURN unitStat(currentUnit,UN_ACCURACY)
+END FUNCTION
 
-FUNCTION HasAPToFire(currentUnit as UBYTE) AS UBYTE
+SUB PrintChanceToHit(target as UBYTE)
+    INK 5: PAPER 0 
+    PRINT AT 22,25;"hit ";ChanceToHit(target);"%";
+END SUB
+    
+SUB PrintDamageRange()
+    DIM minDmg, maxDmg as UBYTE
+    DIM weaponId AS UBYTE
+    weaponId = unitStat(currentUnit, UN_WEAPON)
+
+    minDmg = weaponStat(weaponId,WPN_DAMAGE_MIN)
+    maxDmg = weaponStat(weaponId,WPN_DAMAGE_MAX)
+    INK 5: PAPER 0
+    
+    PRINT at 22,17;minDmg;"-";maxDmg;"dmg";
+END SUB
+
+FUNCTION HasAPToFire() AS UBYTE
     DIM weaponId AS UBYTE
     
     weaponId = unitStat(currentUnit, UN_WEAPON)
@@ -13,12 +33,18 @@ FUNCTION HasAPToFire(currentUnit as UBYTE) AS UBYTE
 END FUNCTION
 
 
+SUB PrintInfoPaneFireMode(target as UBYTE)
+    PrintFireInfo(target)
+    PrintChanceToHit(target)
+    PrintDamageRange()
+END SUB
+
 SUB FireMode(currentUnit AS UBYTE)   
     DIM endFireMode AS UBYTE = FALSE
     DIM key AS String
     DIM target AS UBYTE
 
-    IF HasAPToFire(currentUnit) = FALSE THEN
+    IF HasAPToFire() = FALSE THEN
         PrintInfoBarWarning("Not enough AP to fire")
         PrintInfoBar(MOVE_MODE)
         RETURN
@@ -35,9 +61,10 @@ SUB FireMode(currentUnit AS UBYTE)
     DrawEnemyUnitsForFireMode()
     target = GetFirstTarget(player)
     DrawUnit(target, DRAW_FIRE_TARGET)
+    PrintInfoPaneFireMode(target)
 
     DO   
-        IF HasAPToFire(currentUnit) = FALSE THEN
+        IF HasAPToFire() = FALSE THEN
             PrintInfoBarWarning("Not enough AP to fire")
             EXIT DO
         ENDIF
@@ -54,6 +81,8 @@ SUB FireMode(currentUnit AS UBYTE)
             DrawUnit(target, DRAW_FIRE_VISIBLE)
             target = GetNextTarget(player, target)
             DrawUnit(target, DRAW_FIRE_TARGET)
+            PrintInfoPaneFireMode(target)
+
         ELSEIF key="1" THEN
             
             TakeShot(currentUnit, target)
@@ -64,6 +93,7 @@ SUB FireMode(currentUnit AS UBYTE)
             ELSEIF unitStat(target, UN_STATUS) = DEAD THEN
                 target = GetNextTarget(player, target)
                 DrawUnit(target, DRAW_FIRE_TARGET)
+                PrintInfoPaneFireMode(target)
             ENDIF
         ENDIF
         
@@ -71,6 +101,7 @@ SUB FireMode(currentUnit AS UBYTE)
 
     PrintInfoBar(MOVE_MODE)
     DrawEnemyUnitsForMoveMode()
+    PrintUnitInfo()    ' Draw Move Mode Info Pane
 
 END SUB
 
@@ -92,7 +123,7 @@ SUB DrawEnemyUnitsForFireMode()
     FOR unit = 0 TO NUMBER_OF_UNITS-1
         IF unitStat(unit,UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(unit,UN_STATUS) = DEAD THEN CONTINUE FOR
-        IF visibilityFlag(unit)=TRUE THEN 
+        IF visibilityFlag(unit)>0 THEN 
             DrawUnit(unit, DRAW_FIRE_VISIBLE)       
         ELSE
             DrawUnit(unit, DRAW_FIRE_NOT_VISIBLE)
@@ -125,13 +156,12 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     weaponId = unitStat(currentUnit, UN_WEAPON)
     message = unitName(currentUnit) + " "
 
-    ' update unit APs
     unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
     PrintAP()
 
     DrawShot(currentUnit, target)
     diceRoll = Random(1,100)
-    IF diceRoll>unitStat(currentUnit, UN_ACCURACY) THEN
+    IF diceRoll>ChanceToHit(target) THEN
         message = message + "misses"
         PrintInfoBarInform(message)
         PrintInfoBar(FIRE_MODE)
@@ -147,7 +177,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
         unitStat(target, UN_HP) = 0
         unitStat(target, UN_STATUS) = DEAD
         DrawUnit(target, DRAW_REMOVE)
-        visibilityFlag(target) = FALSE
+        visibilityFlag(target) = 0
         map(unitStat(target, UN_Y),unitStat(target, UN_X)) = 0
         message = unitName(target) + " is out of action"
         PrintInfoBarInform(message)
@@ -155,6 +185,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
         message = message + "hits for " + Str(damage) + " HP"
         PrintInfoBarInform(message)
         unitStat(target, UN_HP) = targetHP
+        PrintInfoPaneFireMode(target)
     ENDIF
     PrintInfoBar(FIRE_MODE)
 
