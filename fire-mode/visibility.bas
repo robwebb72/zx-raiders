@@ -19,7 +19,7 @@ FUNCTION LoSBresenhamQ1(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
         WEND
         x = x + 1
         delta = delta + y2
-        IF map(y,x)<>0 THEN RETURN 0
+        IF map(y,x)<>0 THEN RETURN FALSE
     NEXT c
 
     RETURN 1
