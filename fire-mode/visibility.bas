@@ -67,10 +67,15 @@ FUNCTION HasLineOfSight(x1 AS UBYTE, y1 AS UBYTE, x2 AS UBYTE, y2 as UBYTE) AS U
 END FUNCTION
 
 
-FUNCTION IsInRange(rangeSq as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE  
+FUNCTION IsInRange(range as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE  
     DIM dSquare as UBYTE
+    DIM rangeSq AS UBYTE
 
-    dSquare = dx * dx + dy * dy
+    IF dx > range THEN RETURN FALSE
+    IF dy > range THEN RETURN FALSE
+
+    dSquare = (dx * dx) + (dy * dy)
+    rangeSq = range * range
     IF dSquare > rangeSq THEN RETURN FALSE
 
     RETURN TRUE
@@ -94,9 +99,9 @@ FUNCTION IsVisible(currentUnit AS UBYTE, target AS UBYTE) AS UBYTE
     yt = unitStat(target,UN_Y)
     dy = yt - yu
 
-    IF IsInRange(rangeSq, dx, dy)=FALSE THEN RETURN FALSE
-
-    RETURN HasLineOfSight(xu, yu, xt, yt)   
+    IF IsInRange(rangeSq, dx, dy)=FALSE THEN RETURN 0
+    IF HasLineOfSight(xu, yu, xt, yt) =FALSE THEN RETURN 0
+    RETURN dx*dx + dy*dy
 END FUNCTION
 
 
@@ -105,7 +110,7 @@ SUB CalculateEnemyVisibility(currentUnit AS UBYTE)
 
     FOR i = 0 TO NUMBER_OF_UNITS-1
       
-        visibilityFlag(i) = FALSE
+        visibilityFlag(i) = 0
         
         IF unitStat(i, UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(i, UN_STATUS) <> ALIVE THEN CONTINUE FOR
@@ -119,7 +124,7 @@ FUNCTION AnyEnemiesVisible() AS UBYTE
     DIM i AS UBYTE
         
     FOR i = 0 TO NUMBER_OF_UNITS-1
-        IF visibilityFlag(i) = TRUE THEN RETURN TRUE
+        IF visibilityFlag(i)>0 THEN RETURN TRUE
     NEXT i
     RETURN FALSE
 END FUNCTION
