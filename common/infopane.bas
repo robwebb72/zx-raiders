@@ -34,19 +34,20 @@ SUB InfoPaneStartTurn()
     ClearInfoPane()
 END SUB
 
+SUB PrintWeaponInfo()
+    DIM weaponId AS UBYTE
+    weaponId = unitStat(currentUnit, UN_WEAPON)
+    PRINT AT 21,17;weaponName(weaponId);" (";weaponStat(weaponId,WPN_AP);" AP)";   
+END SUB
+
 
 SUB PrintUnitInfo()
-    DIM weaponId AS UBYTE
-    
     INK 6 : PAPER 0 : ClearInfoPane()
     
     PRINT AT 21,0;unitName(currentUnit);  
+    PrintWeaponInfo()
     PrintAP()
     PrintHP()
-
-    weaponId = unitStat(currentUnit, UN_WEAPON)
-    PRINT AT 21,20;weaponName(weaponId);
-    PRINT AT 22,20;weaponStat(weaponId,WPN_AP);" AP to fire";   
 END SUB
 
 
@@ -58,7 +59,7 @@ END SUB
 
 SUB PrintHP()
     INK 6 : PAPER 0
-    PRINT AT 23,0;"HP:";CreateStatString(unitStat(currentUnit,UN_HP),unitStat(currentUnit,UN_TOTAL_HP))
+    PRINT AT 22,17;"HP:";CreateStatString(unitStat(currentUnit,UN_HP),unitStat(currentUnit,UN_TOTAL_HP))
 END SUB
 
 
@@ -69,3 +70,14 @@ SUB ClearInfoPane()
 END SUB
 
 
+SUB PrintFireInfo(target as UBYTE)
+    INK 6 : PAPER 0 : ClearInfoPane()
+    
+    PRINT AT 21,0;unitName(currentUnit);
+    PrintWeaponInfo()
+    PrintAP()
+    INK 5
+    PRINT AT 23,0;unitName(target);
+    PRINT AT 23,16;"HP:";unitStat(target,UN_HP);" ";
+
+END SUB
