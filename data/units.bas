@@ -19,23 +19,40 @@
 #DEFINE MARSEC 1
 
 DIM unitStat(NUMBER_OF_UNITS-1,12) AS UBYTE = { _
-    { RAIDERS,2,1,12,16,60,  2, 3,1,0,0,0,0 }, _
-    { RAIDERS,1,0,12,16,40,  1, 2,1,0,0,0,0 }, _
-    { RAIDERS,1,0, 8,12,40,  1, 3,1,0,0,0,0 }, _
-    { RAIDERS,0,2, 8,12,30,  1, 4,1,0,0,0,0 }, _
-    { RAIDERS,2,1, 6,12,50,  1,17,1,0,0,0,0 }, _
-    { RAIDERS,1,0, 5,12,40,  2,16,1,0,0,0,0 }, _
-    { RAIDERS,0,2, 5,10,30,  2,15,1,0,0,0,0 }, _
-    { RAIDERS,0,2, 5,10,50,  1,16,1,0,0,0,0 }, _
-    { MARSEC,5,1,10,12,60,  28, 3,1,0,0,0,0 }, _
-    { MARSEC,4,0, 8,12,40,  29, 4,1,0,0,0,0 }, _
-    { MARSEC,4,0, 8,10,40,  28, 5,1,0,0,0,0 }, _
-    { MARSEC,5,1, 8,10,50,  13,16,1,0,0,0,0 }, _
-    { MARSEC,3,2, 8,12,30,  10,16,1,0,0,0,0 }, _ 
-    { MARSEC,3,2, 4,12,30,  21,15,1,0,0,0,0 }, _
-    { MARSEC,4,0, 4,12,30,  20,16,1,0,0,0,0 }, _
-    { MARSEC,4,0, 4,12,30,  22,17,1,0,0,0,0 } }
+    { RAIDERS,   2,1,     12,  16,     60,     2,  3,    ALIVE ,0,0,0,0 }, _
+    { RAIDERS,   0,2,     12,  16,     40,     1,  2,    ALIVE ,0,0,0,0 }, _
+    { RAIDERS,   1,0,      8,  12,     40,     1,  3,    ALIVE ,0,0,0,0 }, _
+    { RAIDERS,   0,2,      8,  12,     30,     1,  4,    ALIVE ,0,0,0,0 }, _
+    { RAIDERS,   2,1,      6,  12,     50,    17, 17,    ALIVE ,0,0,0,0 }, _
+    { RAIDERS,   1,0,      5,  12,     40,     2, 16,    ALIVE ,0,0,0,0 }, _
+    { RAIDERS,   0,2,      5,  10,     60,     2, 15,    ALIVE ,0,0,0,0 }, _
+    { RAIDERS,   0,2,      5,  10,     60,     1, 16,    ALIVE ,0,0,0,0 }, _
+    { MARSEC,    5,1,     10,  12,     60,    28,  3,    ALIVE ,0,0,0,0 }, _
+    { MARSEC,    4,0,      8,  12,     40,    29,  4,    ALIVE ,0,0,0,0 }, _
+    { MARSEC,    4,0,      8,  10,     40,    28,  5,    ALIVE ,0,0,0,0 }, _
+    { MARSEC,    5,1,      8,  10,     50,    13, 16,    ALIVE ,0,0,0,0 }, _
+    { MARSEC,    3,2,      8,  12,     30,    10, 16,    ALIVE ,0,0,0,0 }, _ 
+    { MARSEC,    3,2,      4,  12,     30,    21, 15,    ALIVE ,0,0,0,0 }, _
+    { MARSEC,    3,2,      4,  12,     30,    20, 16,    ALIVE ,0,0,0,0 }, _
+    { MARSEC,    3,2,      4,  12,     30,    22, 17,    ALIVE ,0,0,0,0 } }
 
+
+' troop types
+' - private
+'    - low ap (8) - can move a square and fire a rifle
+'    - low hp (6-8)  - a shot from a rifle will most likely kill them
+'    - rifle or pistol
+'
+' - captains
+'    - rifle, pistol or minigun
+'    - moderate ap (10-12) - can move two squares and fire a rifle
+'    - moderate hp - can survive a rifle shot, but not two
+'
+'
+' - heroes
+'    - rifle or minigun
+'    - high ap (12-16) - can move three or four squares and fire a rifle
+'    - very high hp - can survive two rifle shots and still fight
 
 DIM unitName(15) AS STRING
 
