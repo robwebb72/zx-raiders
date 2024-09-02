@@ -123,7 +123,7 @@ SUB DrawEnemyUnitsForFireMode()
     FOR unit = 0 TO NUMBER_OF_UNITS-1
         IF unitStat(unit,UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(unit,UN_STATUS) = DEAD THEN CONTINUE FOR
-        IF visibilityFlag(unit)>0 THEN 
+        IF rangeSqValue(unit)>0 THEN 
             DrawUnit(unit, DRAW_FIRE_VISIBLE)       
         ELSE
             DrawUnit(unit, DRAW_FIRE_NOT_VISIBLE)
@@ -177,7 +177,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
         unitStat(target, UN_HP) = 0
         unitStat(target, UN_STATUS) = DEAD
         DrawUnit(target, DRAW_REMOVE)
-        visibilityFlag(target) = 0
+        rangeSqValue(target) = 0
         map(unitStat(target, UN_Y),unitStat(target, UN_X)) = 0
         message = unitName(target) + " is out of action"
         PrintInfoBarInform(message)

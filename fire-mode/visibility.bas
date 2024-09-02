@@ -1,4 +1,4 @@
-DIM visibilityFlag(NUMBER_OF_UNITS) AS UBYTE
+DIM rangeSqValue(NUMBER_OF_UNITS) AS UBYTE
 
 
 FUNCTION LoSBresenhamQ1(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
@@ -31,7 +31,7 @@ FUNCTION LoSBresenhamQ2(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
     DIM c AS UBYTE
     
     signY = SGN(dy)
-    dy=ABS(dy)
+    dy = ABS(dy)
     x2 = dx + dx
     y2 = dy + dy
     
@@ -89,7 +89,7 @@ FUNCTION IsVisible(currentUnit AS UBYTE, target AS UBYTE) AS UBYTE
     DIM weaponId, rangeSq AS UBYTE
     
     weaponId = unitStat(currentUnit, UN_WEAPON)
-    rangeSq = weaponStat(weaponId,WPN_LONG_RANGE_SQ)
+    rangeSq = weaponStat(weaponId,WPN_RANGE_MAX)
     
     xu = unitStat(currentUnit,UN_X)
     xt = unitStat(target,UN_X)    
@@ -110,11 +110,11 @@ SUB CalculateEnemyVisibility(currentUnit AS UBYTE)
 
     FOR i = 0 TO NUMBER_OF_UNITS-1
       
-        visibilityFlag(i) = 0
+        rangeSqValue(i) = 0
         
         IF unitStat(i, UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(i, UN_STATUS) <> ALIVE THEN CONTINUE FOR
-        visibilityFlag(i) = IsVisible(currentUnit, i)
+        rangeSqValue(i) = IsVisible(currentUnit, i)
     NEXT i
 
 END SUB
@@ -124,7 +124,7 @@ FUNCTION AnyEnemiesVisible() AS UBYTE
     DIM i AS UBYTE
         
     FOR i = 0 TO NUMBER_OF_UNITS-1
-        IF visibilityFlag(i)>0 THEN RETURN TRUE
+        IF rangeSqValue(i)>0 THEN RETURN TRUE
     NEXT i
     RETURN FALSE
 END FUNCTION
