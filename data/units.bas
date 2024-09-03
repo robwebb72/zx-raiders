@@ -19,7 +19,7 @@
 #DEFINE MARSEC 1
 
 DIM unitStat(NUMBER_OF_UNITS-1,12) AS UBYTE = { _
-    { RAIDERS,   2,1,     12,  16,     60,     2,  3,    ALIVE ,0,0,0,0 }, _
+    { RAIDERS,   2,1,     12,  16,     60,     1,  5,    ALIVE ,0,0,0,0 }, _
     { RAIDERS,   0,2,     12,  16,     40,     1,  2,    ALIVE ,0,0,0,0 }, _
     { RAIDERS,   1,0,      8,  12,     40,     1,  3,    ALIVE ,0,0,0,0 }, _
     { RAIDERS,   0,2,      8,  12,     30,     1,  4,    ALIVE ,0,0,0,0 }, _
