@@ -72,8 +72,6 @@ SUB TakeTurn()
         ELSEIF key="n" or key="N" THEN
             DrawUnit(currentUnit, DRAW_NORMAL)
             currentUnit = GetNextUnit()
-        ELSEIF key="1" THEN 		' DEBUGGING CODE: Should be removed
-            KillAllEnemies()	'                 also debugging!
         ELSEIF key="0" THEN 
             turnEnded = 1
 		ELSEIF key="f" or key="F" THEN
@@ -93,17 +91,5 @@ SUB ResetUnitAps()
     
     FOR unit = 0 TO NUMBER_OF_UNITS-1
         IF unitStat(unit, UN_FACTION) = player AND unitStat(unit, UN_STATUS) = ALIVE THEN unitStat(unit, UN_AP) = unitStat(unit, UN_TOTAL_AP) 
-    NEXT unit
-END SUB
-
-
-SUB KillAllEnemies()
-    DIM unit AS UBYTE
-    DIM enemyFaction AS UBYTE
-    
-    enemyFaction = 1 - player
-    
-    FOR unit = 0 TO NUMBER_OF_UNITS-1
-        IF unitStat(unit, UN_FACTION) = enemyFaction THEN unitStat(unit, UN_STATUS) = DEAD
     NEXT unit
 END SUB
