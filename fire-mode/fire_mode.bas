@@ -3,7 +3,20 @@
 #include "draw_shot.bas"
 
 FUNCTION ChanceToHit(target as UBYTE) AS UBYTE
-    RETURN unitStat(currentUnit,UN_ACCURACY)
+    DIM modifier AS UBYTE = 100
+    DIM result AS BYTE
+    DIM weaponId AS UBYTE
+    weaponId = unitStat(currentUnit, UN_WEAPON)
+
+    result = unitStat(currentUnit,UN_ACCURACY)
+    IF rangeLevel(target) = 1 THEN modifier = weaponStat(weaponId,WPN_ACC_MOD_SHORT)
+    IF rangeLevel(target) = 2 THEN modifier = weaponStat(weaponId,WPN_ACC_MOD_MID)
+    IF rangeLevel(target) = 3 THEN modifier = weaponStat(weaponId,WPN_ACC_MOD_LONG)
+    
+    result = result + modifier
+    if result < 5 THEN result = 5
+    if result >95 THEN result = 95
+    RETURN result
 END FUNCTION
 
 SUB PrintChanceToHit(target as UBYTE)
@@ -123,7 +136,7 @@ SUB DrawEnemyUnitsForFireMode()
     FOR unit = 0 TO NUMBER_OF_UNITS-1
         IF unitStat(unit,UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(unit,UN_STATUS) = DEAD THEN CONTINUE FOR
-        IF rangeSqValue(unit)>0 THEN 
+        IF rangeLevel(unit)>0 THEN 
             DrawUnit(unit, DRAW_FIRE_VISIBLE)       
         ELSE
             DrawUnit(unit, DRAW_FIRE_NOT_VISIBLE)
@@ -161,6 +174,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
 
     DrawShot(currentUnit, target)
     diceRoll = Random(1,100)
+    diceRoll = 52
     IF diceRoll>ChanceToHit(target) THEN
         message = message + "misses"
         PrintInfoBarInform(message)
@@ -177,7 +191,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
         unitStat(target, UN_HP) = 0
         unitStat(target, UN_STATUS) = DEAD
         DrawUnit(target, DRAW_REMOVE)
-        rangeSqValue(target) = 0
+        rangeLevel(target) = 0
         map(unitStat(target, UN_Y),unitStat(target, UN_X)) = 0
         message = unitName(target) + " is out of action"
         PrintInfoBarInform(message)

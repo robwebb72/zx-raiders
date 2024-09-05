@@ -8,7 +8,7 @@ FUNCTION GetNextTarget(player as UBYTE, currentTarget as UBYTE) AS UBYTE
     
         IF unitStat(nextTarget, UN_STATUS) = DEAD THEN CONTINUE DO
         IF unitStat(nextTarget, UN_FACTION) = player THEN CONTINUE DO
-        IF rangeSqValue(nextTarget)>0 THEN RETURN nextTarget
+        IF rangeLevel(nextTarget)>0 THEN RETURN nextTarget
     LOOP WHILE nextTarget <> currentTarget
     
     IF unitStat(nextTarget, UN_STATUS) = ALIVE THEN RETURN nextTarget
