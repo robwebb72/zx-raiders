@@ -1,51 +1,14 @@
 #include "visibility.bas"
 #include "next_target.bas"
 #include "draw_shot.bas"
+#include "get-weapon-stats.bas"
+#include "take_shot.bas"
 
-FUNCTION ChanceToHit(target as UBYTE) AS UBYTE
-    DIM modifier AS UBYTE = 100
-    DIM result AS BYTE
-    DIM weaponId AS UBYTE
-    weaponId = unitStat(currentUnit, UN_WEAPON)
-
-    result = unitStat(currentUnit,UN_ACCURACY)
-    IF rangeLevel(target) = 1 THEN modifier = weaponStat(weaponId,WPN_ACC_MOD_SHORT)
-    IF rangeLevel(target) = 2 THEN modifier = weaponStat(weaponId,WPN_ACC_MOD_MID)
-    IF rangeLevel(target) = 3 THEN modifier = weaponStat(weaponId,WPN_ACC_MOD_LONG)
-    
-    result = result + modifier
-    if result < 5 THEN result = 5
-    if result >95 THEN result = 95
-    RETURN result
-END FUNCTION
 
 SUB PrintChanceToHit(target as UBYTE)
     INK 5: PAPER 0 
     PRINT AT 22,25;"hit ";ChanceToHit(target);"%";
 END SUB
-
-
-FUNCTION GetMinDamage(target as UBYTE) AS UBYTE
-    DIM weaponId AS UBYTE
-    
-    weaponId = unitStat(currentUnit, UN_WEAPON)
-
-    IF rangeLevel(target) = 1 THEN RETURN weaponStat(weaponId,WPN_DAMAGE_MIN_SHORT)
-    IF rangeLevel(target) = 2 THEN RETURN weaponStat(weaponId,WPN_DAMAGE_MIN_MID)
-    
-    RETURN weaponStat(weaponId,WPN_DAMAGE_MIN)
-END FUNCTION
-
-FUNCTION GetMaxDamage(target as UBYTE) AS UBYTE
-    DIM weaponId AS UBYTE
-
-    weaponId = unitStat(currentUnit, UN_WEAPON)
-
-    IF rangeLevel(target) = 1 THEN RETURN weaponStat(weaponId,WPN_DAMAGE_MAX_SHORT)
-    IF rangeLevel(target) = 2 THEN RETURN weaponStat(weaponId,WPN_DAMAGE_MAX_MID)
-    
-    RETURN weaponStat(weaponId,WPN_DAMAGE_MAX)
-END FUNCTION
 
 
 
@@ -59,13 +22,10 @@ SUB PrintDamageRange(target as UBYTE)
     PRINT at 22,17;minDmg;"-";maxDmg;"dmg";
 END SUB
 
+
 FUNCTION HasAPToFire() AS UBYTE
-    DIM weaponId AS UBYTE
-    
-    weaponId = unitStat(currentUnit, UN_WEAPON)
     IF unitStat(currentUnit,UN_AP) < weaponStat(weaponId, WPN_AP) THEN RETURN FALSE
     RETURN TRUE
-
 END FUNCTION
 
 
@@ -76,14 +36,16 @@ SUB PrintInfoPaneFireMode(target as UBYTE)
     
     IF rangeLevel(target) = 1 THEN PRINT AT 23,25;"SHORT"
     IF rangeLevel(target) = 2 THEN PRINT AT 23,25;"MEDIUM"
-    IF rangeLevel(target) = 3 THEN PRINT AT 23,25;"LONG"
-    
+    IF rangeLevel(target) = 3 THEN PRINT AT 23,25;"LONG"  
 END SUB
 
-SUB FireMode(currentUnit AS UBYTE)   
+
+SUB FireMode()   
     DIM endFireMode AS UBYTE = FALSE
     DIM key AS String
     DIM target AS UBYTE
+
+    weaponId = unitStat(currentUnit, UN_WEAPON)
 
     IF HasAPToFire() = FALSE THEN
         PrintInfoBarWarning("Not enough AP to fire")
@@ -91,7 +53,7 @@ SUB FireMode(currentUnit AS UBYTE)
         RETURN
     ENDIF
    
-    CalculateEnemyVisibility(currentUnit)
+    CalculateEnemyVisibility()
     IF AnyEnemiesVisible() = FALSE THEN
         PrintInfoBarWarning("No visible enemies in range")
         PrintInfoBar(MOVE_MODE)
@@ -126,7 +88,7 @@ SUB FireMode(currentUnit AS UBYTE)
 
         ELSEIF key="1" THEN
             
-            TakeShot(currentUnit, target)
+            TakeShot(target)
             
             IF AnyEnemiesVisible() = FALSE THEN
                 PrintInfoBarWarning("No visible enemies in range")
@@ -172,65 +134,3 @@ SUB DrawEnemyUnitsForFireMode()
     NEXT unit       
 END SUB
 
-
-SUB ShowDamage(target as UBYTE, damage as UBYTE)
-    DIM i AS UBYTE
-    
-    FOR i=0 TO damage
-        DrawUnit(target, DRAW_YELLOW)
-        BEEP 0.15,-4
-        DrawUnit(target, DRAW_RED)
-        BEEP 0.15,-6
-    NEXT i    
-    DrawUnit(target, DRAW_FIRE_TARGET)
-END SUB
-
-SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
-    DIM weaponId AS UBYTE
-    DIM diceRoll AS UBYTE
-    DIM message AS STRING
-    DIM minDmg, maxDmg, damage AS UBYTE
-    DIM targetHP AS BYTE
-       
-    DrawUnit(currentUnit, DRAW_NORMAL)  ' draw current unit in case it was blanked out by the blinker
-    
-    weaponId = unitStat(currentUnit, UN_WEAPON)
-    message = unitName(currentUnit) + " "
-
-    unitStat(currentUnit, UN_AP) = unitStat(currentUnit, UN_AP) - weaponStat(weaponId, WPN_AP)
-    PrintAP()
-
-    DrawShot(currentUnit, target)
-    diceRoll = Random(1,100)
-    IF diceRoll>ChanceToHit(target) THEN
-        message = message + "misses"
-        PrintInfoBarInform(message)
-        PrintInfoBar(FIRE_MODE)
-        RETURN
-    ENDIF
-
-    minDmg = GetMinDamage(target)
-    maxDmg = GetMaxDamage(target)
-
-    damage = Random(minDmg, maxDmg)
-    targetHP = unitStat(target, UN_HP) - damage
-    ShowDamage(target, damage)
-           
-    
-    IF targetHP<=0 THEN                     ' if target is dead
-        unitStat(target, UN_HP) = 0
-        unitStat(target, UN_STATUS) = DEAD
-        DrawUnit(target, DRAW_REMOVE)
-        rangeLevel(target) = 0
-        map(unitStat(target, UN_Y),unitStat(target, UN_X)) = 0
-        message = unitName(target) + " is out of action"
-        PrintInfoBarInform(message)
-    ELSE
-        message = message + "hits for " + Str(damage) + " HP"
-        PrintInfoBarInform(message)
-        unitStat(target, UN_HP) = targetHP
-        PrintInfoPaneFireMode(target)
-    ENDIF
-    PrintInfoBar(FIRE_MODE)
-
-END SUB

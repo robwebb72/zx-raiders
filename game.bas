@@ -75,7 +75,7 @@ SUB TakeTurn()
         ELSEIF key="0" THEN 
             turnEnded = 1
 		ELSEIF key="f" or key="F" THEN
-			FireMode(currentUnit)			
+			FireMode()			
         ENDIF
         
         winner = FindWinner()

@@ -71,8 +71,8 @@ FUNCTION IsInRange(range as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
     DIM dSquare as UBYTE
     DIM rangeSq AS UBYTE
 
-    IF dx > range THEN RETURN FALSE
-    IF dy > range THEN RETURN FALSE
+    IF Abs(dx) > range THEN RETURN FALSE
+    IF Abs(dy) > range THEN RETURN FALSE
 
     dSquare = (dx * dx) + (dy * dy)
     rangeSq = range * range
@@ -83,7 +83,7 @@ FUNCTION IsInRange(range as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
 END FUNCTION
 
 
-FUNCTION IsVisible(currentUnit AS UBYTE, target AS UBYTE) AS UBYTE
+FUNCTION IsVisible(target AS UBYTE) AS UBYTE
     DIM dx, dy as BYTE
     DIM xu, xt, yu, yt as UBYTE  
     DIM weaponId, rangeSq AS UBYTE
@@ -105,7 +105,7 @@ FUNCTION IsVisible(currentUnit AS UBYTE, target AS UBYTE) AS UBYTE
 END FUNCTION
 
 
-SUB CalculateEnemyVisibility(currentUnit AS UBYTE)
+SUB CalculateEnemyVisibility()
     DIM i AS UBYTE = 0
     DIM shortRangeSq, midRangeSq as UBYTE
     DIM weaponId, rangeSq AS UBYTE
@@ -121,7 +121,7 @@ SUB CalculateEnemyVisibility(currentUnit AS UBYTE)
         
         IF unitStat(i, UN_FACTION) = player THEN CONTINUE FOR
         IF unitStat(i, UN_STATUS) <> ALIVE THEN CONTINUE FOR
-        rangeSq = IsVisible(currentUnit, i)
+        rangeSq = IsVisible(i)
         IF rangeSq=0 THEN CONTINUE FOR
         rangeLevel(i) = 3
         if (rangeSq <= midRangeSq) THEN rangeLevel(i) = 2
