@@ -1,24 +1,5 @@
-
-SUB ShowDamage(target as UBYTE, damage as UBYTE)
-    DIM i AS UBYTE
-    
-    FOR i=0 TO damage
-        DrawUnit(target, DRAW_YELLOW)
-        BEEP 0.15,-4
-        DrawUnit(target, DRAW_RED)
-        BEEP 0.15,-6
-    NEXT i    
-    DrawUnit(target, DRAW_FIRE_TARGET)
-END SUB
-
 FUNCTION CalculateDamage(target as UBYTE) as UBYTE
-    DIM minDmg as UBYTE = GetMinDamage(target)
-    DIM maxDmg as UBYTE = GetMaxDamage(target)
-    DIM damage as UBYTE
-
-    damage = Random(minDmg, maxDmg)
-
-    RETURN damage
+    RETURN Random(GetMinDamage(target), GetMaxDamage(target))
 END FUNCTION
 
 
@@ -55,6 +36,20 @@ SUB TakeShot(target as UBYTE)
     ENDIF
     PrintInfoBar(FIRE_MODE)
 END SUB
+
+
+SUB ShowDamage(target as UBYTE, damage as UBYTE)
+    DIM i AS UBYTE
+    
+    FOR i=0 TO damage
+        DrawUnit(target, DRAW_YELLOW)
+        BEEP 0.15,-4
+        DrawUnit(target, DRAW_RED)
+        BEEP 0.15,-6
+    NEXT i    
+    DrawUnit(target, DRAW_FIRE_TARGET)
+END SUB
+
 
 SUB KillUnit(target as UBYTE)
     unitStat(target, UN_HP) = 0
