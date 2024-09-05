@@ -40,7 +40,7 @@ SUB RunGame()
         player = 1 - player
         IF player = 0 THEN turnCounter = turnCounter + 1
         ResetUnitAps()
-        InfoPaneStartTurn()        
+        InfoPaneStartTurn()
         TakeTurn()
     LOOP WHILE winner=WINNER_NONE
     
