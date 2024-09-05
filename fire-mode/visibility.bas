@@ -22,7 +22,7 @@ FUNCTION LoSBresenhamQ1(x as UBYTE, y as UBYTE, dx as BYTE, dy as BYTE) AS UBYTE
         IF map(y,x)<>0 THEN RETURN FALSE
     NEXT c
 
-    RETURN 1
+    RETURN TRUE
 END FUNCTION
 
 
@@ -124,8 +124,8 @@ SUB CalculateEnemyVisibility(currentUnit AS UBYTE)
         rangeSq = IsVisible(currentUnit, i)
         IF rangeSq=0 THEN CONTINUE FOR
         rangeLevel(i) = 3
-        if (rangeSq < midRangeSq) THEN rangeLevel(i) = 2
-        if (rangeSq < shortRangeSq) THEN rangeLevel(i) = 1
+        if (rangeSq <= midRangeSq) THEN rangeLevel(i) = 2
+        if (rangeSq <= shortRangeSq) THEN rangeLevel(i) = 1
     NEXT i
 
 END SUB
