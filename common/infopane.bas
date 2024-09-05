@@ -78,6 +78,6 @@ SUB PrintFireInfo(target as UBYTE)
     PrintAP()
     INK 5
     PRINT AT 23,0;unitName(target);
-    PRINT AT 23,16;"HP:";unitStat(target,UN_HP);" ";
+    PRINT AT 23,17;"HP:";unitStat(target,UN_HP);" ";
 
 END SUB
