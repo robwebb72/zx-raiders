@@ -4,11 +4,15 @@
 #DEFINE WPN_DAMAGE_MAX 3
 #DEFINE WPN_RANGE_SHORT 4
 #DEFINE WPN_RANGE_MID 5
+#DEFINE WPN_ACC_MOD_SHORT 6
+#DEFINE WPN_ACC_MOD_MID 7
+#DEFINE WPN_ACC_MOD_LONG 8
 
-DIM weaponStat(2,5) AS UBYTE = { _
-    { 3, 6,2,3,    3, 6    }, _
-    { 6, 9,4,6,    3, 6    }, _
-    { 8,12,4,8,    4, 8    } }
+
+DIM weaponStat(2,8) AS BYTE = { _
+    { 3, 6,2,3,    3, 6,  10, -10, -10  }, _
+    { 6, 9,4,6,    3, 6,  10,   0, -20  }, _
+    { 8,12,4,8,    4, 8,  -5,  10,  10  } }
 
 DIM weaponName(2) AS STRING
 
