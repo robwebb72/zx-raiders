@@ -23,14 +23,37 @@ SUB PrintChanceToHit(target as UBYTE)
     INK 5: PAPER 0 
     PRINT AT 22,25;"hit ";ChanceToHit(target);"%";
 END SUB
-    
-SUB PrintDamageRange()
-    DIM minDmg, maxDmg as UBYTE
+
+
+FUNCTION GetMinDamage(target as UBYTE) AS UBYTE
     DIM weaponId AS UBYTE
+    
     weaponId = unitStat(currentUnit, UN_WEAPON)
 
-    minDmg = weaponStat(weaponId,WPN_DAMAGE_MIN)
-    maxDmg = weaponStat(weaponId,WPN_DAMAGE_MAX)
+    IF rangeLevel(target) = 1 THEN RETURN weaponStat(weaponId,WPN_DAMAGE_MIN_SHORT)
+    IF rangeLevel(target) = 2 THEN RETURN weaponStat(weaponId,WPN_DAMAGE_MIN_MID)
+    
+    RETURN weaponStat(weaponId,WPN_DAMAGE_MIN)
+END FUNCTION
+
+FUNCTION GetMaxDamage(target as UBYTE) AS UBYTE
+    DIM weaponId AS UBYTE
+
+    weaponId = unitStat(currentUnit, UN_WEAPON)
+
+    IF rangeLevel(target) = 1 THEN RETURN weaponStat(weaponId,WPN_DAMAGE_MAX_SHORT)
+    IF rangeLevel(target) = 2 THEN RETURN weaponStat(weaponId,WPN_DAMAGE_MAX_MID)
+    
+    RETURN weaponStat(weaponId,WPN_DAMAGE_MAX)
+END FUNCTION
+
+
+
+SUB PrintDamageRange(target as UBYTE)
+    DIM minDmg, maxDmg as UBYTE
+
+    minDmg = GetMinDamage(target)
+    maxDmg = GetMaxDamage(target)
     INK 5: PAPER 0
     
     PRINT at 22,17;minDmg;"-";maxDmg;"dmg";
@@ -49,7 +72,12 @@ END FUNCTION
 SUB PrintInfoPaneFireMode(target as UBYTE)
     PrintFireInfo(target)
     PrintChanceToHit(target)
-    PrintDamageRange()
+    PrintDamageRange(target)
+    
+    IF rangeLevel(target) = 1 THEN PRINT AT 23,25;"SHORT"
+    IF rangeLevel(target) = 2 THEN PRINT AT 23,25;"MEDIUM"
+    IF rangeLevel(target) = 3 THEN PRINT AT 23,25;"LONG"
+    
 END SUB
 
 SUB FireMode(currentUnit AS UBYTE)   
@@ -161,7 +189,7 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
     DIM weaponId AS UBYTE
     DIM diceRoll AS UBYTE
     DIM message AS STRING
-    DIM damage AS UBYTE
+    DIM minDmg, maxDmg, damage AS UBYTE
     DIM targetHP AS BYTE
        
     DrawUnit(currentUnit, DRAW_NORMAL)  ' draw current unit in case it was blanked out by the blinker
@@ -174,7 +202,6 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
 
     DrawShot(currentUnit, target)
     diceRoll = Random(1,100)
-    diceRoll = 52
     IF diceRoll>ChanceToHit(target) THEN
         message = message + "misses"
         PrintInfoBarInform(message)
@@ -182,7 +209,10 @@ SUB TakeShot(currentUnit as UBYTE, target as UBYTE)
         RETURN
     ENDIF
 
-    damage = Random(weaponStat(weaponId, WPN_DAMAGE_MIN), weaponStat(weaponId, WPN_DAMAGE_MAX))
+    minDmg = GetMinDamage(target)
+    maxDmg = GetMaxDamage(target)
+
+    damage = Random(minDmg, maxDmg)
     targetHP = unitStat(target, UN_HP) - damage
     ShowDamage(target, damage)
            
