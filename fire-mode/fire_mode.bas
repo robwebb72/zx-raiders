@@ -1,7 +1,7 @@
 #include "visibility.bas"
 #include "next_target.bas"
 #include "draw_shot.bas"
-#include "get-weapon-stats.bas"
+#include "get_weapon_stats.bas"
 #include "take_shot.bas"
 
 
@@ -9,7 +9,6 @@ SUB PrintChanceToHit(target as UBYTE)
     INK 5: PAPER 0 
     PRINT AT 22,25;"hit ";ChanceToHit(target);"%";
 END SUB
-
 
 
 SUB PrintDamageRange(target as UBYTE)
