@@ -13,11 +13,12 @@ With Mars Securities cracking down on the basic rights of Martian civilians an
 uprising was certain.  This was lead by the charismatic leader Nye Lassan.  
 MarSec moves swiftly to quell the uprising and Nye Lassan is arrested.
 
-Two of Lassan's friends, Kaiser Krenon and Venus Starfire gather what remains of Lassan's supporters and plan to free Lassan.
+Two of Lassan's friends, Kaiser Krenon and Venus Starfire gather what remains of
+Lassan's supporters and plan to free Lassan.
 
 The first task is to capture outpost CI-89, an old geological research station
 owned by MarSec.  The outpost should be poorly defended and more importantly has
-an old network hardpoint that the Raiders can use to find where Lassan is being 
+an old network hardpoint that the Raiders can use to find where Lassan is being
 held.
 
 ## THE GAME
@@ -30,8 +31,15 @@ held.
 
 #### ACTION POINTS (APs)
 
-Every unit has a number of action points.  
-// TODO
+Every unit has a number of action points.  Moving and firing costs APs.  Moving
+horizontally or vertically costs 2 APs, moving diagonally costs 3 APs.  The cost
+to fire a weapon depends on the weapon in question.
+
+Weapon  | Cost to First
+--------|--------------
+Pistol  | 3AP
+Rifle   | 8AP
+Minigun | 6AP
 
 #### HIT POINTS (HPs)
 
