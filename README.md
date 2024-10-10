@@ -11,7 +11,7 @@ control of Martian companies, the most notable being Mars Securities.
 
 With Mars Securities cracking down on the basic rights of Martian civilians an
 uprising was certain.  This was lead by the charismatic leader Nya Zorn.  
-MarSec moved swiftly to quell the uprising and  Nya Zorn was arrested.
+MarSec moved swiftly to quell the uprising and Nya Zorn was arrested.
 
 Two of Zorn's friends, Kaiser Krenon and Venus Starfire gathered what remains of
 Zorn's supporters and planned to free Zorn.
