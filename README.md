@@ -10,15 +10,15 @@ As Earth tightens it's grip on the Martian economy many Earth corporations take
 control of Martian companies, the most notable being Mars Securities.
 
 With Mars Securities cracking down on the basic rights of Martian civilians an
-uprising was certain.  This was lead by the charismatic leader Nye Lasan.  
-MarSec moved swiftly to quell the uprising and Nye Lassan was arrested.
+uprising was certain.  This was lead by the charismatic leader Nya Zorn.  
+MarSec moved swiftly to quell the uprising and  Nya Zorn was arrested.
 
-Two of Lassan's friends, Kaiser Krenon and Venus Starfire gathered what remains of
-Lasan's supporters and planned to free Lasan.
+Two of Zorn's friends, Kaiser Krenon and Venus Starfire gathered what remains of
+Zorn's supporters and planned to free Zorn.
 
 The first task is to capture outpost CI-89, an old geological research station
 owned by MarSec.  The outpost should be poorly defended and more importantly has
-an old network hardpoint that the Raiders can use to find where Lasan is being
+an old network hardpoint that the Raiders can use to find where Zorn is being
 held.
 
 ## THE GAME
